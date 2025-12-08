@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Drag-and-Drop Floorplan Experiment Tool</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f7;
+      color: #222;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* 헤더 */
+    .header {
+      padding: 12px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .header-right {
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* 메인 영역 */
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    /* 패널 공통 */
+    .panel {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .panel-header {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-subtext {
+      font-size: 11px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      font-size: 10px;
+      color: #555;
+      gap: 4px;
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #888;
+    }
+
+    /* 팔레트 */
+    .palette-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .shape-item {
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      cursor: grab;
+      background: #fafafa;
+      transition: box-shadow 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    }
+
+    .shape-item:hover {
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+      background: #fdfdfd;
+    }
+
+    .shape-preview {
+      min-width: 40px;
+      min-height: 30px;
+      border-radius: 6px;
+      border: 1px dashed #bbb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #666;
+    }
+
+    .shape-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .shape-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .shape-info {
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* 캔버스 영역 */
+    .canvas-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .canvas-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #666;
+    }
+
+    .canvas-toolbar-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+
+    .canvas-toolbar-right {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #ffffff;
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn:hover {
+      background: #f5f5f5;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      border-color: #2563eb;
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .canvas {
+      position: relative;
+      flex: 1;
+      min-height: 360px;
+      border-radius: 12px;
+      background: repeating-linear-gradient(
+        90deg,
+        #f4f4f4,
+        #f4f4f4 20px,
+        #eaeaea 20px,
+        #eaeaea 21px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        #f4f4f4,
+        #f4f4f4 20px,
+        #eaeaea 20px,
+        #eaeaea 21px
+      );
+      border: 1px solid #ddd;
+      overflow: hidden;
+    }
+
+    .canvas-drop-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .canvas-shape {
+      position: absolute;
+      border-radius: 6px;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(37,99,235,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      padding: 4px;
+      cursor: move;
+      user-select: none;
+    }
+
+    .canvas-shape.selected {
+      box-shadow: 0 0 0 2px #1d4ed8;
+      background: rgba(59,130,246,0.18);
+    }
+
+    .canvas-shape-label {
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* 하단 JSON 영역 */
+    .bottom-panel {
+      border-top: 1px solid #eee;
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .bottom-panel label {
+      font-size: 11px;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      max-height: 140px;
+      resize: vertical;
+      font-size: 11px;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+
+    .hint {
+      font-size: 10px;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    /* 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <header class="header">
+    <div>
+      <div class="header-title">방 배치 설문 실험 도구</div>
+      <div class="header-subtitle">
+        왼쪽 도형(방 타입)을 드래그하여 오른쪽 캔버스에 배치하세요.
+      </div>
+    </div>
+    <div class="header-right">
+      Drag & Drop · Web-based Experimental Interface
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- 팔레트 패널 -->
+    <section class="panel">
+      <div class="panel-header">
+        <span>도형 / 방 타입 팔레트</span>
+        <span class="tag"><span class="tag-dot"></span> Standardized Room Types</span>
+      </div>
+      <div class="panel-subtext">
+        각 방은 미리 정의된 유형입니다. 드래그하면 캔버스에 복제되어 배치됩니다.
+      </div>
+
+      <div class="palette-list" id="palette">
+        <!-- 예시 방 타입들 (원하면 여기서 추가/수정 가능) -->
+        <div class="shape-item" draggable="true"
+             data-room-type="Li" data-label="Living Room" data-width="140" data-height="100">
+          <div class="shape-preview">Li</div>
+          <div class="shape-meta">
+            <div class="shape-name">거실 (Li)</div>
+            <div class="shape-info">140 × 100 (px) – 넓은 공용 공간</div>
+          </div>
+        </div>
+
+        <div class="shape-item" draggable="true"
+             data-room-type="Ki" data-label="Kitchen" data-width="120" data-height="80">
+          <div class="shape-preview">Ki</div>
+          <div class="shape-meta">
+            <div class="shape-name">주방 (Ki)</div>
+            <div class="shape-info">120 × 80 (px) – 조리 및 식사 영역</div>
+          </div>
+        </div>
+
+        <div class="shape-item" draggable="true"
+             data-room-type="Be" data-label="Bedroom" data-width="110" data-height="80">
+          <div class="shape-preview">Be</div>
+          <div class="shape-meta">
+            <div class="shape-name">침실 (Be)</div>
+            <div class="shape-info">110 × 80 (px) – 개인 공간</div>
+          </div>
+        </div>
+
+        <div class="shape-item" draggable="true"
+             data-room-type="Ba" data-label="Bathroom" data-width="70" data-height="60">
+          <div class="shape-preview">Ba</div>
+          <div class="shape-meta">
+            <div class="shape-name">욕실 (Ba)</div>
+            <div class="shape-info">70 × 60 (px) – 욕실/화장실</div>
+          </div>
+        </div>
+
+        <div class="shape-item" draggable="true"
+             data-room-type="St" data-label="Storage" data-width="60" data-height="60">
+          <div class="shape-preview">St</div>
+          <div class="shape-meta">
+            <div class="shape-name">수납/창고 (St)</div>
+            <div class="shape-info">60 × 60 (px) – 수납 공간</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 캔버스 + JSON 영역 -->
+    <section class="panel canvas-wrapper">
+      <div class="panel-header">
+        <span>배치 캔버스</span>
+      </div>
+      <div class="canvas-toolbar">
+        <div class="canvas-toolbar-left">
+          <span class="badge">Tip</span>
+          <span>도형 드래그 → 캔버스 드롭 · 선택 후 <b>Delete</b> 키로 삭제 가능</span>
+        </div>
+        <div class="canvas-toolbar-right">
+          <button class="btn" id="clearCanvasBtn">모두 지우기</button>
+          <button class="btn btn-primary" id="exportJsonBtn">레이아웃 JSON 내보내기</button>
+        </div>
+      </div>
+
+      <div class="canvas" id="canvas">
+        <div class="canvas-drop-hint" id="dropHint">
+          도형을 이 영역으로 드래그하여 배치하세요.
+        </div>
+      </div>
+
+      <div class="bottom-panel">
+        <label>
+          현재 레이아웃 데이터 (JSON)
+          <span style="font-weight: normal; color:#999;">참가자 응답 저장 시 사용</span>
+        </label>
+        <textarea id="layoutOutput" readonly placeholder="‘레이아웃 JSON 내보내기’ 버튼을 누르면 이곳에 데이터가 표시됩니다."></textarea>
+        <div class="hint">
+          각 객체는 { id, roomType, label, x, y, width, height } 형태로 기록됩니다 (px 기준, 캔버스 좌상단 원점).
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // ===== 설정 =====
+  const GRID_SIZE = 10; // 좌표를 10px 단위 그리드에 스냅
+
+  const canvas = document.getElementById('canvas');
+  const palette = document.getElementById('palette');
+  const dropHint = document.getElementById('dropHint');
+  const layoutOutput = document.getElementById('layoutOutput');
+  const clearCanvasBtn = document.getElementById('clearCanvasBtn');
+  const exportJsonBtn = document.getElementById('exportJsonBtn');
+
+  let draggedShapeData = null;    // 팔레트에서 온 데이터
+  let shapesOnCanvas = [];        // { id, roomType, label, x, y, width, height }
+  let shapeIdCounter = 1;
+  let selectedShapeId = null;
+
+  // ===== 팔레트 드래그 설정 =====
+  palette.addEventListener('dragstart', (e) => {
+    const item = e.target.closest('.shape-item');
+    if (!item) return;
+
+    draggedShapeData = {
+      roomType: item.dataset.roomType,
+      label: item.dataset.label,
+      width: parseInt(item.dataset.width, 10),
+      height: parseInt(item.dataset.height, 10)
+    };
+
+    e.dataTransfer.effectAllowed = 'copy';
+  });
+
+  palette.addEventListener('dragend', () => {
+    draggedShapeData = null;
+  });
+
+  // ===== 캔버스 드롭 영역 설정 =====
+  canvas.addEventListener('dragover', (e) => {
+    e.preventDefault(); // drop 허용
+    e.dataTransfer.dropEffect = 'copy';
+  });
+
+  canvas.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!draggedShapeData) return;
+
+    const rect = canvas.getBoundingClientRect();
+    // 마우스 위치를 캔버스 좌표로 변환
+    let x = e.clientX - rect.left - draggedShapeData.width / 2;
+    let y = e.clientY - rect.top - draggedShapeData.height / 2;
+
+    // 그리드 스냅
+    x = Math.round(x / GRID_SIZE) * GRID_SIZE;
+    y = Math.round(y / GRID_SIZE) * GRID_SIZE;
+
+    addShapeToCanvas({
+      roomType: draggedShapeData.roomType,
+      label: draggedShapeData.label,
+      x,
+      y,
+      width: draggedShapeData.width,
+      height: draggedShapeData.height
+    });
+  });
+
+  // ===== 캔버스에 도형 추가 함수 =====
+  function addShapeToCanvas({ roomType, label, x, y, width, height }) {
+    dropHint.style.display = 'none';
+
+    const id = 'shape_' + (shapeIdCounter++);
+    const shapeEl = document.createElement('div');
+    shapeEl.className = 'canvas-shape';
+    shapeEl.style.left = x + 'px';
+    shapeEl.style.top = y + 'px';
+    shapeEl.style.width = width + 'px';
+    shapeEl.style.height = height + 'px';
+    shapeEl.dataset.id = id;
+
+    const labelEl = document.createElement('div');
+    labelEl.className = 'canvas-shape-label';
+    labelEl.innerHTML = `<b>${roomType}</b><br>${label}`;
+    shapeEl.appendChild(labelEl);
+
+    canvas.appendChild(shapeEl);
+
+    shapesOnCanvas.push({ id, roomType, label, x, y, width, height });
+    attachShapeEvents(shapeEl);
+    updateJsonOutput();
+  }
+
+  // ===== 도형 이벤트(선택, 드래그 이동, 삭제 등) =====
+  function attachShapeEvents(shapeEl) {
+    shapeEl.addEventListener('mousedown', onShapeMouseDown);
+    shapeEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectShape(shapeEl.dataset.id);
+    });
+  }
+
+  // 배경 클릭 시 선택 해제
+  canvas.addEventListener('mousedown', (e) => {
+    if (e.target === canvas) {
+      selectShape(null);
+    }
+  });
+
+  function selectShape(id) {
+    selectedShapeId = id;
+    document.querySelectorAll('.canvas-shape').forEach((el) => {
+      if (el.dataset.id === id) el.classList.add('selected');
+      else el.classList.remove('selected');
+    });
+  }
+
+  // 키보드 삭제
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (!selectedShapeId) return;
+      deleteShape(selectedShapeId);
+      selectedShapeId = null;
+    }
+  });
+
+  function deleteShape(id) {
+    // DOM 제거
+    const el = canvas.querySelector(`.canvas-shape[data-id="${id}"]`);
+    if (el) el.remove();
+    // 데이터 제거
+    shapesOnCanvas = shapesOnCanvas.filter((s) => s.id !== id);
+    if (shapesOnCanvas.length === 0) {
+      dropHint.style.display = 'flex';
+    }
+    updateJsonOutput();
+  }
+
+  // 도형 드래그 이동 (캔버스 내부에서)
+  function onShapeMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const shapeEl = e.currentTarget;
+    selectShape(shapeEl.dataset.id);
+
+    const rect = canvas.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const initialLeft = parseInt(shapeEl.style.left, 10);
+    const initialTop = parseInt(shapeEl.style.top, 10);
+
+    function onMouseMove(ev) {
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+
+      let newX = initialLeft + dx;
+      let newY = initialTop + dy;
+
+      // 그리드 스냅
+      newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
+      newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
+
+      // 캔버스 범위 내로 제한 (간단하게)
+      newX = Math.max(0, Math.min(newX, rect.width - shapeEl.offsetWidth));
+      newY = Math.max(0, Math.min(newY, rect.height - shapeEl.offsetHeight));
+
+      shapeEl.style.left = newX + 'px';
+      shapeEl.style.top = newY + 'px';
+
+      // 데이터 업데이트
+      const id = shapeEl.dataset.id;
+      const shapeData = shapesOnCanvas.find((s) => s.id === id);
+      if (shapeData) {
+        shapeData.x = newX;
+        shapeData.y = newY;
+      }
+      updateJsonOutput();
+    }
+
+    function onMouseUp() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  // ===== JSON 출력 =====
+  function updateJsonOutput() {
+    const clean = shapesOnCanvas.map(({ id, roomType, label, x, y, width, height }) => ({
+      id, roomType, label, x, y, width, height
+    }));
+    layoutOutput.value = JSON.stringify(clean, null, 2);
+  }
+
+  // ===== 버튼 기능 =====
+  clearCanvasBtn.addEventListener('click', () => {
+    if (!confirm('캔버스를 비우시겠습니까?')) return;
+    shapesOnCanvas = [];
+    selectedShapeId = null;
+    canvas.querySelectorAll('.canvas-shape').forEach((el) => el.remove());
+    dropHint.style.display = 'flex';
+    updateJsonOutput();
+  });
+
+  exportJsonBtn.addEventListener('click', () => {
+    // 설문 시스템에 연결할 때는 여기서 AJAX/Fetch로 서버에 전송하면 됨
+    alert('현재 레이아웃 JSON이 아래에 표시되었습니다. 이 값을 설문 응답으로 저장하면 됩니다.');
+  });
+</script>
+</body>
+</html>
