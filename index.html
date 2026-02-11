@@ -43,10 +43,15 @@
         
         .prolific-section {
             background: #fff;
-            border: 2px solid #0066cc;
+            border: 1px solid #ddd;
             border-radius: 4px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: border-color 0.2s ease, border-width 0.2s ease;
+        }
+        
+        .prolific-section:focus-within {
+            border: 2px solid #0066cc;
         }
         
         .prolific-section label {
@@ -68,6 +73,11 @@
             border-radius: 4px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: border-color 0.2s ease, border-width 0.2s ease;
+        }
+        
+        .demographics-section:focus-within {
+            border: 2px solid #0066cc;
         }
         
         .demographics-section h3 {
@@ -169,6 +179,11 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 24px;
+            transition: border-color 0.2s ease, border-width 0.2s ease;
+        }
+        
+        .entry-card:focus-within {
+            border: 2px solid #0066cc;
         }
         
         .entry-header {
@@ -330,8 +345,8 @@
     <div class="container">
         <div class="survey-container" id="survey-container">
             <header>
-                <h1>Time Use Survey</h1>
-                <p class="subtitle">24-Hour Activity & Spatial Preference Diary</p>
+                <h1>Daily Activity & Residential Preference Survey</h1>
+                <p class="subtitle">Document your weekday activities and describe your ideal residential room structure for each activity</p>
             </header>
             
             <div class="prolific-section">
@@ -353,8 +368,7 @@
                             <option value="">Select...</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="none">None of the above</option>
-                            <option value="prefer_not">Prefer not to reveal</option>
+                            <option value="prefer_not">Prefer not to answer</option>
                         </select>
                     </div>
                     
@@ -387,7 +401,7 @@
             </div>
             
             <div class="info-box">
-                <p>📋 Please record all activities from <strong>4:00 AM to 4:00 AM</strong> (next day). For each activity, specify the time, what you did, and your ideal room preferences for that activity.</p>
+                <p>📋 Please record all activities from <strong>4:00 AM to 4:00 AM the following day</strong> during a typical weekday. For each entry, describe your ideal residential room preferences for performing that activity.</p>
             </div>
             
             <div id="entries-container" class="entries-container">
@@ -568,7 +582,6 @@
             { value: "living_room", text: "Living Room" },
             { value: "kitchen", text: "Kitchen" },
             { value: "dining_room", text: "Dining Room" },
-            { value: "master_bedroom", text: "Master Bedroom" },
             { value: "bedroom", text: "Bedroom" },
             { value: "bathroom", text: "Bathroom" },
             { value: "storeroom", text: "Storeroom" },
@@ -578,11 +591,11 @@
 
         const sizeOptions = [
             { value: "", text: "Select size..." },
-            { value: "0.1-0.9", text: "0.1~0.9m²" },
-            { value: "1-1.9", text: "1m²~1.9m²" },
-            { value: "2-2.9", text: "2m²~2.9m²" },
-            { value: "3-3.9", text: "3m²~3.9m²" },
-            { value: "4+", text: "4m²+" }
+            { value: "1-1.9", text: "1~1.9m²" },
+            { value: "2-2.9", text: "2~2.9m²" },
+            { value: "3-3.9", text: "3~3.9m²" },
+            { value: "4-4.9", text: "4~4.9m²" },
+            { value: "5+", text: "5m²+" }
         ];
 
         const orientations = [
@@ -677,38 +690,54 @@
                     </div>
                     
                     <div class="spatial-section">
-                        <h3>Ideal Room Description for This Activity</h3>
+                        <h3>Ideal Room Description for This Activity *</h3>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 16px;">If you have no room preference for any item, you can leave it blank.</p>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Room Type *</label>
-                                <select id="room-type-${entryCount}">
+                                <label>Room Type</label>
+                                <select id="room-type-${entryCount}" onchange="toggleRoomTypeOther(${entryCount})">
                                     ${createSimpleOptions(roomTypes)}
                                 </select>
                             </div>
                             
+                            <div class="form-group" id="room-type-other-group-${entryCount}" style="display: none;">
+                                <label>Specify room type</label>
+                                <input type="text" id="room-type-other-${entryCount}" placeholder="Please specify">
+                            </div>
+                            
                             <div class="form-group">
-                                <label>Size *</label>
+                                <label>Size</label>
                                 <select id="room-size-${entryCount}">
                                     ${createSimpleOptions(sizeOptions)}
                                 </select>
                             </div>
                             
                             <div class="form-group">
-                                <label>Adjacent to *</label>
-                                <select id="adjacency-${entryCount}">
+                                <label>Adjacent to</label>
+                                <select id="adjacency-${entryCount}" onchange="toggleAdjacencyOther(${entryCount})">
                                     ${createSimpleOptions(roomTypes)}
                                 </select>
                             </div>
                             
+                            <div class="form-group" id="adjacency-other-group-${entryCount}" style="display: none;">
+                                <label>Specify adjacent room</label>
+                                <input type="text" id="adjacency-other-${entryCount}" placeholder="Please specify">
+                            </div>
+                            
                             <div class="form-group">
-                                <label>Connected to *</label>
-                                <select id="connectivity-${entryCount}">
+                                <label>Connected to</label>
+                                <select id="connectivity-${entryCount}" onchange="toggleConnectivityOther(${entryCount})">
                                     ${createSimpleOptions(roomTypes)}
                                 </select>
                             </div>
                             
+                            <div class="form-group" id="connectivity-other-group-${entryCount}" style="display: none;">
+                                <label>Specify connected room</label>
+                                <input type="text" id="connectivity-other-${entryCount}" placeholder="Please specify">
+                            </div>
+                            
                             <div class="form-group">
-                                <label>Orientation *</label>
+                                <label>Orientation</label>
                                 <select id="orientation-${entryCount}">
                                     ${createSimpleOptions(orientations)}
                                 </select>
@@ -763,6 +792,39 @@
                 otherGroup.style.display = 'none';
             }
         }
+        
+        function toggleRoomTypeOther(entryId) {
+            const roomTypeSelect = document.getElementById(`room-type-${entryId}`);
+            const otherGroup = document.getElementById(`room-type-other-group-${entryId}`);
+            
+            if (roomTypeSelect.value === 'other') {
+                otherGroup.style.display = 'flex';
+            } else {
+                otherGroup.style.display = 'none';
+            }
+        }
+        
+        function toggleAdjacencyOther(entryId) {
+            const adjacencySelect = document.getElementById(`adjacency-${entryId}`);
+            const otherGroup = document.getElementById(`adjacency-other-group-${entryId}`);
+            
+            if (adjacencySelect.value === 'other') {
+                otherGroup.style.display = 'flex';
+            } else {
+                otherGroup.style.display = 'none';
+            }
+        }
+        
+        function toggleConnectivityOther(entryId) {
+            const connectivitySelect = document.getElementById(`connectivity-${entryId}`);
+            const otherGroup = document.getElementById(`connectivity-other-group-${entryId}`);
+            
+            if (connectivitySelect.value === 'other') {
+                otherGroup.style.display = 'flex';
+            } else {
+                otherGroup.style.display = 'none';
+            }
+        }
 
         function deleteEntry(entryId) {
             const entry = document.getElementById(`entry-${entryId}`);
@@ -803,6 +865,18 @@
                 const whereOther = document.getElementById(`where-other-${id}`).value;
                 const whereLocation = whereValue === 'other' ? whereOther : whereValue;
                 
+                const roomTypeValue = document.getElementById(`room-type-${id}`).value;
+                const roomTypeOther = document.getElementById(`room-type-other-${id}`).value;
+                const roomType = roomTypeValue === 'other' ? roomTypeOther : roomTypeValue;
+                
+                const adjacencyValue = document.getElementById(`adjacency-${id}`).value;
+                const adjacencyOther = document.getElementById(`adjacency-other-${id}`).value;
+                const adjacency = adjacencyValue === 'other' ? adjacencyOther : adjacencyValue;
+                
+                const connectivityValue = document.getElementById(`connectivity-${id}`).value;
+                const connectivityOther = document.getElementById(`connectivity-other-${id}`).value;
+                const connectivity = connectivityValue === 'other' ? connectivityOther : connectivityValue;
+                
                 const entry = {
                     entryNumber: index + 1,
                     startTime: document.getElementById(`start-${id}`).value,
@@ -813,10 +887,10 @@
                     where: whereLocation,
                     device: document.getElementById(`device-${id}`).value,
                     spatialPreferences: {
-                        roomType: document.getElementById(`room-type-${id}`).value,
+                        roomType: roomType,
                         size: document.getElementById(`room-size-${id}`).value,
-                        adjacency: document.getElementById(`adjacency-${id}`).value,
-                        connectivity: document.getElementById(`connectivity-${id}`).value,
+                        adjacency: adjacency,
+                        connectivity: connectivity,
                         orientation: document.getElementById(`orientation-${id}`).value,
                         notes: document.getElementById(`notes-${id}`).value
                     }
@@ -824,10 +898,7 @@
                 
                 // Check all required fields
                 if (!entry.startTime || !entry.endTime || !entry.mainActivity || 
-                    !entry.whoFor || !entry.where ||
-                    !entry.spatialPreferences.roomType || !entry.spatialPreferences.size ||
-                    !entry.spatialPreferences.adjacency || !entry.spatialPreferences.connectivity ||
-                    !entry.spatialPreferences.orientation) {
+                    !entry.whoFor || !entry.where) {
                     isValid = false;
                 }
                 
