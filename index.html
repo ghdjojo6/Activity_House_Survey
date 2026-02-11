@@ -688,6 +688,18 @@
                         </div>
                         
                         <div class="form-group">
+                            <label>Where *</label>
+                            <select id="where-${entryCount}" onchange="toggleWhereOther(${entryCount})">
+                                ${createSimpleOptions(roomTypes)}
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="where-other-group-${entryCount}" style="display: none;">
+                            <label>Specify location</label>
+                            <input type="text" id="where-other-${entryCount}" placeholder="Please specify">
+                        </div>
+                        
+                        <div class="form-group">
                             <label>Who did you do this for? *</label>
                             <select id="who-for-${entryCount}">
                                 ${createSimpleOptions(whoForOptions)}
@@ -695,20 +707,8 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Where *</label>
-                            <select id="where-${entryCount}" onchange="toggleWhereOther(${entryCount})">
-                                ${createSimpleOptions(roomTypes)}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group" id="where-other-group-${entryCount}" style="display: none;">
-                            <label>Specify location</label>
-                            <input type="text" id="where-other-${entryCount}" placeholder="Please specify">
-                        </div>
-                        
-                        <div class="form-group">
                             <label>Tools Used</label>
-                            <input type="text" id="device-${entryCount}" placeholder="e.g., Phone, Laptop, None, etc.">
+                            <input type="text" id="tools-${entryCount}" placeholder="e.g., Phone, Laptop, None, etc.">
                         </div>
                     </div>
                     
