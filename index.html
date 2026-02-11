@@ -368,6 +368,43 @@
                 <h3>Demographic Information</h3>
                 <div class="form-grid">
                     <div class="form-group">
+                        <label>Household Type *</label>
+                        <select id="household-type" required>
+                            <option value="">Select...</option>
+                            <option value="one_person">One person</option>
+                            <option value="family_no_children">Family with no children</option>
+                            <option value="family_dependent_children">Family with dependent children</option>
+                            <option value="family_nondependent_children">Family with non-dependent children only</option>
+                            <option value="multi_family">Multi-family</option>
+                            <option value="non_relatives">Non-relatives only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Household Size *</label>
+                        <select id="household-size" required>
+                            <option value="">Select...</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6_or_more">6 or more</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Working Status *</label>
+                        <select id="working-status" required>
+                            <option value="">Select...</option>
+                            <option value="full_time">Full time worker (more than 35h a week)</option>
+                            <option value="part_time">Part time worker (less than 35h a week)</option>
+                            <option value="non_working">Non-working adult</option>
+                            <option value="retired">Retired</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
                         <label>Amount of time spent at home *</label>
                         <select id="time-at-home" required>
                             <option value="">Select...</option>
@@ -396,29 +433,6 @@
                             <option value="22h">22h</option>
                             <option value="23h">23h</option>
                             <option value="24h">24h</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Household Type *</label>
-                        <select id="household-type" required>
-                            <option value="">Select...</option>
-                            <option value="one_person">One person</option>
-                            <option value="family_no_children">Family with no children</option>
-                            <option value="family_dependent_children">Family with dependent children</option>
-                            <option value="family_nondependent_children">Family with non-dependent children only</option>
-                            <option value="multi_family">Multi-family</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Working Status *</label>
-                        <select id="working-status" required>
-                            <option value="">Select...</option>
-                            <option value="full_time">Full time worker (more than 35h a week)</option>
-                            <option value="part_time">Part time worker (less than 35h a week)</option>
-                            <option value="non_working">Non-working adult</option>
-                            <option value="retired">Retired</option>
                         </select>
                     </div>
                 </div>
@@ -866,11 +880,12 @@
             }
             
             // Check demographics
-            const timeAtHome = document.getElementById('time-at-home').value;
             const householdType = document.getElementById('household-type').value;
+            const householdSize = document.getElementById('household-size').value;
             const workingStatus = document.getElementById('working-status').value;
+            const timeAtHome = document.getElementById('time-at-home').value;
             
-            if (!timeAtHome || !householdType || !workingStatus) {
+            if (!householdType || !householdSize || !workingStatus || !timeAtHome) {
                 alert('Please fill in all demographic information.');
                 return;
             }
@@ -907,7 +922,7 @@
                     secondaryActivity: document.getElementById(`secondary-activity-${id}`).value,
                     whoFor: document.getElementById(`who-for-${id}`).value,
                     where: whereLocation,
-                    device: document.getElementById(`device-${id}`).value,
+                    tools: document.getElementById(`tools-${id}`).value,
                     spatialPreferences: {
                         roomType: roomType,
                         size: document.getElementById(`room-size-${id}`).value,
@@ -945,9 +960,10 @@
             const surveyData = {
                 prolificId: prolificId,
                 demographics: {
-                    timeAtHome: timeAtHome,
                     householdType: householdType,
-                    workingStatus: workingStatus
+                    householdSize: householdSize,
+                    workingStatus: workingStatus,
+                    timeAtHome: timeAtHome
                 },
                 submittedAt: new Date().toISOString(),
                 entries: entries
