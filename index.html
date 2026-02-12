@@ -5,349 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Use & Spatial Preference Survey</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 8px;
-        }
-        
-        .subtitle {
-            font-size: 0.95rem;
-            color: #666;
-        }
-        
-        .prolific-section {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: border-color 0.2s ease, border-width 0.2s ease;
-        }
-        
-        .prolific-section:focus-within {
-            border: 2px solid #0066cc;
-        }
-        
-        .prolific-section label {
-            display: block;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 8px;
-        }
-        
-        .prolific-section input {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .demographics-section {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: border-color 0.2s ease, border-width 0.2s ease;
-        }
-        
-        .demographics-section:focus-within {
-            border: 2px solid #0066cc;
-        }
-        
-        .demographics-section h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 16px;
-        }
-        
-        .info-box {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 16px;
-            margin-bottom: 30px;
-            border-left: 4px solid #0066cc;
-        }
-        
-        .completion-page {
-            display: none;
-            text-align: center;
-            padding: 60px 20px;
-        }
-        
-        .completion-page.active {
-            display: block;
-        }
-        
-        .completion-box {
-            background: #fff;
-            border: 2px solid #28a745;
-            border-radius: 8px;
-            padding: 40px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .completion-box h2 {
-            color: #28a745;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .completion-box p {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 24px;
-            line-height: 1.8;
-        }
-        
-        .completion-code {
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 12px 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #222;
-            margin: 20px 0;
-        }
-        
-        .prolific-link {
-            display: inline-block;
-            background: #0066cc;
-            color: white;
-            padding: 14px 32px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
-        }
-        
-        .prolific-link:hover {
-            background: #0052a3;
-        }
-        
-        .survey-container {
-            display: block;
-        }
-        
-        .survey-container.hidden {
-            display: none;
-        }
-        
-        .info-box p {
-            color: #555;
-            font-size: 0.95rem;
-        }
-        
-        .entries-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .entry-card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 24px;
-            transition: border-color 0.2s ease, border-width 0.2s ease;
-        }
-        
-        .entry-card:focus-within {
-            border: 2px solid #0066cc;
-        }
-        
-        .entry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .entry-number {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #222;
-        }
-        
-        .delete-btn {
-            background: #fff;
-            border: 1px solid #dc3545;
-            color: #dc3545;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        .delete-btn:hover {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-        
-        label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #555;
-        }
-        
-        input[type="time"],
-        select,
-        input[type="text"],
-        textarea {
-            background: #fff;
-            border: 1px solid #ccc;
-            color: #333;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 0.95rem;
-        }
-        
-        /* Time input arrow styling to match select dropdowns */
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            opacity: 0.6;
-        }
-        
-        input[type="time"]::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
-        }
-        
-        input[type="time"]:focus,
-        select:focus,
-        input[type="text"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #0066cc;
-        }
-        
-        select {
-            cursor: pointer;
-        }
-        
-        optgroup {
-            font-weight: 600;
-            font-style: normal;
-            color: #0066cc;
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .spatial-section {
-            background: #f9f9f9;
-            border: 1px solid #e5e5e5;
-            border-radius: 4px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-        
-        .spatial-section h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-        }
-        
-        .add-entry-btn,
-        .submit-btn {
-            background: #0066cc;
-            border: none;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            margin-top: 16px;
-            width: 100%;
-        }
-        
-        .add-entry-btn:hover,
-        .submit-btn:hover {
-            background: #0052a3;
-        }
-        
-        .submit-btn {
-            background: #28a745;
-            margin-top: 30px;
-        }
-        
-        .submit-btn:hover {
-            background: #218838;
-        }
-        
-        .time-duration {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 4px;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 2rem; font-weight: 600; color: #222; margin-bottom: 8px; }
+        .subtitle { font-size: 0.95rem; color: #666; }
+        .prolific-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; transition: border-color 0.2s, border-width 0.2s; }
+        .prolific-section:focus-within { border: 2px solid #0066cc; }
+        .prolific-section label { display: block; font-size: 1rem; font-weight: 600; color: #222; margin-bottom: 8px; }
+        .prolific-section input { width: 100%; max-width: 400px; }
+        .demographics-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; transition: border-color 0.2s, border-width 0.2s; }
+        .demographics-section:focus-within { border: 2px solid #0066cc; }
+        .demographics-section h3 { font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 16px; }
+        .info-box { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin-bottom: 30px; border-left: 4px solid #0066cc; }
+        .info-box p { color: #555; font-size: 0.95rem; }
+        .completion-page { display: none; text-align: center; padding: 60px 20px; }
+        .completion-page.active { display: block; }
+        .completion-box { background: #fff; border: 2px solid #28a745; border-radius: 8px; padding: 40px; max-width: 600px; margin: 0 auto; }
+        .completion-box h2 { color: #28a745; font-size: 1.8rem; margin-bottom: 20px; }
+        .completion-box p { font-size: 1.1rem; color: #555; margin-bottom: 24px; line-height: 1.8; }
+        .completion-code { background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; padding: 12px 20px; font-family: 'Courier New', monospace; font-size: 1.3rem; font-weight: 600; color: #222; margin: 20px 0; }
+        .prolific-link { display: inline-block; background: #0066cc; color: white; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 600; margin-top: 20px; }
+        .prolific-link:hover { background: #0052a3; }
+        .survey-container { display: block; }
+        .survey-container.hidden { display: none; }
+        .entries-container { display: flex; flex-direction: column; gap: 20px; }
+        .entry-card { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 24px; transition: border-color 0.2s, border-width 0.2s; }
+        .entry-card:focus-within { border: 2px solid #0066cc; }
+        .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+        .entry-number { font-size: 1.2rem; font-weight: 600; color: #222; }
+        .delete-btn { background: #fff; border: 1px solid #dc3545; color: #dc3545; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .delete-btn:hover { background: #dc3545; color: white; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        label { font-size: 0.9rem; font-weight: 500; color: #555; }
+        input[type="time"], select, input[type="text"], textarea { background: #fff; border: 1px solid #ccc; color: #333; padding: 8px 12px; border-radius: 4px; font-family: inherit; font-size: 0.95rem; }
+        input[type="time"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+        input[type="time"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+        input[type="time"]:focus, select:focus, input[type="text"]:focus, textarea:focus { outline: none; border-color: #0066cc; }
+        select { cursor: pointer; }
+        optgroup { font-weight: 600; font-style: normal; color: #0066cc; }
+        textarea { resize: vertical; min-height: 80px; }
+        .spatial-section { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 4px; padding: 16px; margin-top: 16px; }
+        .spatial-section h3 { font-size: 1rem; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .spatial-hint { font-size: 0.85rem; color: #666; margin-bottom: 16px; }
+        .add-entry-btn, .submit-btn { background: #0066cc; border: none; color: white; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 500; margin-top: 16px; width: 100%; }
+        .add-entry-btn:hover, .submit-btn:hover { background: #0052a3; }
+        .submit-btn { background: #28a745; margin-top: 30px; }
+        .submit-btn:hover { background: #218838; }
+        .time-duration { font-size: 0.85rem; color: #666; margin-top: 4px; }
+        .room-checkbox-group { border: 1px solid #ccc; border-radius: 4px; padding: 8px 12px; background: #fff; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+        .room-checkbox-group label { font-size: 0.9rem; font-weight: 400; color: #333; display: flex; align-items: center; gap: 5px; cursor: pointer; white-space: nowrap; }
+        .room-checkbox-group input[type="checkbox"] { width: auto; cursor: pointer; }
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .entry-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
+            h1 { font-size: 1.5rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .entry-header { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
     </style>
 </head>
@@ -355,15 +70,13 @@
     <div class="container">
         <div class="survey-container" id="survey-container">
             <header>
-                <h1>Daily Activity & Residential Preference Survey</h1>
+                <h1>Daily Activity &amp; Residential Preference Survey</h1>
                 <p class="subtitle">Document your weekday activities and describe your ideal residential room structure for each activity</p>
             </header>
-            
             <div class="prolific-section">
                 <label for="prolific-id">Prolific ID *</label>
                 <input type="text" id="prolific-id" placeholder="Enter your Prolific ID" required>
             </div>
-            
             <div class="demographics-section">
                 <h3>Demographic Information</h3>
                 <div class="form-grid">
@@ -379,7 +92,6 @@
                             <option value="non_relatives">Non-relatives only</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label>Household Size *</label>
                         <select id="household-size" required>
@@ -392,7 +104,6 @@
                             <option value="6_or_more">6 or more</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label>Working Status *</label>
                         <select id="working-status" required>
@@ -403,7 +114,6 @@
                             <option value="retired">Retired</option>
                         </select>
                     </div>
-                    
                     <div class="form-group">
                         <label>Amount of time spent at home *</label>
                         <select id="time-at-home" required>
@@ -437,22 +147,16 @@
                     </div>
                 </div>
             </div>
-            
             <div class="info-box">
                 <p>📋 Please record all activities from <strong>4:00 AM to 4:00 AM (the following day)</strong> during a typical weekday. For each activity, describe your ideal residential room preferences for performing that activity. You can add entries for additional activities, and please be as specific as possible.</p>
             </div>
-            
-            <div id="entries-container" class="entries-container">
-                <!-- Entries will be added here -->
-            </div>
-            
+            <div id="entries-container" class="entries-container"></div>
             <button class="add-entry-btn" onclick="addEntry()">+ Add Activity Entry</button>
             <button class="submit-btn" onclick="submitSurvey()">Submit Survey</button>
         </div>
-        
         <div class="completion-page" id="completion-page">
             <div class="completion-box">
-                <h2>✓ Survey Complete!</h2>
+                <h2>&#10003; Survey Complete!</h2>
                 <p>Your response has been recorded.</p>
                 <p>Please return to Prolific through this link or with the code below to complete your submission.</p>
                 <div class="completion-code">COC9BJ2P</div>
@@ -460,536 +164,249 @@
             </div>
         </div>
     </div>
-
     <script>
         const activitiesGrouped = [
-            {
-                label: "Sleeping, personal care, medication",
-                options: [
-                    { value: "1", text: "1. Sleeping" },
-                    { value: "2", text: "2. Washing, dressing, using the bathroom and self-grooming" },
-                    { value: "3", text: "3. Medication, other health related care" }
-                ]
-            },
-            {
-                label: "Eating, drinking, cooking",
-                options: [
-                    { value: "4", text: "4. Making food and drinks, cooking" },
-                    { value: "5", text: "5. Eating a meal, eating out, take-away" },
-                    { value: "6", text: "6. Snacking" },
-                    { value: "7", text: "7. Drinking (e.g. tea, coffee, alcohol)" }
-                ]
-            },
-            {
-                label: "Work and other activities for pay",
-                options: [
-                    { value: "8", text: "8. Working" },
-                    { value: "9", text: "9. Working from home" },
-                    { value: "10", text: "10. Working from a café or other workspace" },
-                    { value: "11", text: "11. Providing childcare, cleaning, or doing odd jobs for pay" },
-                    { value: "12", text: "12. Leasing or renting things you own" },
-                    { value: "13", text: "13. Using your private vehicle to earn money" },
-                    { value: "14", text: "14. Showing your own house, flat, or building to potential buyers" },
-                    { value: "15", text: "15. Selling your things, apart from your home" }
-                ]
-            },
-            {
-                label: "Travel and getting around",
-                options: [
-                    { value: "16", text: "16. Travelling to or from paid work" },
-                    { value: "17", text: "17. Travelling to or from unpaid work" },
-                    { value: "18", text: "18. Travelling to or from a shop" },
-                    { value: "19", text: "19. Travelling to or from socialising with others" },
-                    { value: "20", text: "20. Travelling to escort children to or from childcare or school" },
-                    { value: "21", text: "21. Travelling to or from another place" },
-                    { value: "22", text: "22. Packing or unpacking, preparing for journey" }
-                ]
-            },
-            {
-                label: "Housework, pets, DIY and gardening",
-                options: [
-                    { value: "23", text: "23. Cleaning, hoovering, tidying house, sorting the bins" },
-                    { value: "24", text: "24. Using dishwasher or washing up" },
-                    { value: "25", text: "25. Arranging, sorting or unpacking household items" },
-                    { value: "26", text: "26. Ironing, washing, other laundry tasks or mending clothes" },
-                    { value: "27", text: "27. Repairing, maintaining or making household goods, or vehicles" },
-                    { value: "28", text: "28. Lighting fire or cleaning fireplace, log burner or wood burning stove" },
-                    { value: "29", text: "29. Feeding, caring for or playing with animals (pets)" },
-                    { value: "30", text: "30. Walking the dog" },
-                    { value: "31", text: "31. DIY" },
-                    { value: "32", text: "32. Gardening" }
-                ]
-            },
-            {
-                label: "Volunteering",
-                options: [
-                    { value: "33", text: "33. Volunteering as part of a group, organisation, charity, or sports club" }
-                ]
-            },
-            {
-                label: "Caring for and looking after children and adults",
-                options: [
-                    { value: "34", text: "34. Feeding, washing, dressing or preparing meals for children" },
-                    { value: "35", text: "35. Reading with children, helping with homework" },
-                    { value: "36", text: "36. Playing with children" },
-                    { value: "37", text: "37. Attending or watching a child's event or activity" },
-                    { value: "38", text: "38. Supporting, comforting or cuddling children" },
-                    { value: "39", text: "39. Other childcare not elsewhere listed" },
-                    { value: "40", text: "40. Helping, caring for and looking after adults (aged 18+)" }
-                ]
-            },
-            {
-                label: "Shopping, household administration tasks and appointments",
-                options: [
-                    { value: "41", text: "41. Buying something, shopping" },
-                    { value: "42", text: "42. Browsing things to buy later, or window shopping" },
-                    { value: "43", text: "43. Household administration tasks" },
-                    { value: "44", text: "44. Attending appointments or errands" },
-                    { value: "45", text: "45. Queueing or waiting" },
-                    { value: "46", text: "46. Completing a document" }
-                ]
-            },
-            {
-                label: "Free time, entertainment and socialising",
-                options: [
-                    { value: "47", text: "47. Watching TV and DVDs" },
-                    { value: "48", text: "48. Checking phone or tablet" },
-                    { value: "49", text: "49. Listening to music, podcasts, audiobooks, talk shows, radio or news" },
-                    { value: "50", text: "50. Playing games or computer gaming" },
-                    { value: "51", text: "51. Checking or using social media" },
-                    { value: "52", text: "52. Browsing internet" },
-                    { value: "53", text: "53. Checking email" },
-                    { value: "54", text: "54. Reading books, magazines or newspapers" },
-                    { value: "55", text: "55. Socialising, spending time with friends, family, neighbours and colleagues" },
-                    { value: "56", text: "56. Having a conversation" },
-                    { value: "57", text: "57. Writing, texting or emailing" },
-                    { value: "58", text: "58. Visits to cinema, theatre, concerts, sporting events, museums, galleries, library etc." },
-                    { value: "59", text: "59. Attending a meeting or an event" },
-                    { value: "60", text: "60. Hobbies and other leisure activities" },
-                    { value: "61", text: "61. Resting (doing nothing) or in bed not asleep" }
-                ]
-            },
-            {
-                label: "Exercise, health and being active",
-                options: [
-                    { value: "62", text: "62. Gym, fitness, or exercise classes" },
-                    { value: "63", text: "63. Running or jogging" },
-                    { value: "64", text: "64. Cycling" },
-                    { value: "65", text: "65. Playing team sports" },
-                    { value: "66", text: "66. Playing other sports and exercising" },
-                    { value: "67", text: "67. Going for a walk as exercise" },
-                    { value: "68", text: "68. Meditating, having a massage, spa or wellbeing treatments" },
-                    { value: "69", text: "69. Other health or well-being activity" }
-                ]
-            },
-            {
-                label: "Education and study",
-                options: [
-                    { value: "70", text: "70. Attending formal education or taking a course" },
-                    { value: "71", text: "71. Learning or teaching yourself a skill not involving taught classes" },
-                    { value: "72", text: "72. Studying, revising or doing homework" }
-                ]
-            },
-            {
-                label: "Other computer use",
-                options: [
-                    { value: "73", text: "73. Other computer or laptop use" }
-                ]
-            },
-            {
-                label: "Other or personal",
-                options: [
-                    { value: "74", text: "74. Other activities not listed" },
-                    { value: "75", text: "75. Praying" },
-                    { value: "76", text: "76. Smoking or vaping" },
-                    { value: "77", text: "77. Completing the time-use diary" }
-                ]
-            }
+            { label: "Sleeping, personal care, medication", options: [{value:"1",text:"1. Sleeping"},{value:"2",text:"2. Washing, dressing, using the bathroom and self-grooming"},{value:"3",text:"3. Medication, other health related care"}]},
+            { label: "Eating, drinking, cooking", options: [{value:"4",text:"4. Making food and drinks, cooking"},{value:"5",text:"5. Eating a meal, eating out, take-away"},{value:"6",text:"6. Snacking"},{value:"7",text:"7. Drinking (e.g. tea, coffee, alcohol)"}]},
+            { label: "Work and other activities for pay", options: [{value:"8",text:"8. Working"},{value:"9",text:"9. Working from home"},{value:"10",text:"10. Working from a café or other workspace"},{value:"11",text:"11. Providing childcare, cleaning, or doing odd jobs for pay"},{value:"12",text:"12. Leasing or renting things you own"},{value:"13",text:"13. Using your private vehicle to earn money"},{value:"14",text:"14. Showing your own house, flat, or building to potential buyers"},{value:"15",text:"15. Selling your things, apart from your home"}]},
+            { label: "Travel and getting around", options: [{value:"16",text:"16. Travelling to or from paid work"},{value:"17",text:"17. Travelling to or from unpaid work"},{value:"18",text:"18. Travelling to or from a shop"},{value:"19",text:"19. Travelling to or from socialising with others"},{value:"20",text:"20. Travelling to escort children to or from childcare or school"},{value:"21",text:"21. Travelling to or from another place"},{value:"22",text:"22. Packing or unpacking, preparing for journey"}]},
+            { label: "Housework, pets, DIY and gardening", options: [{value:"23",text:"23. Cleaning, hoovering, tidying house, sorting the bins"},{value:"24",text:"24. Using dishwasher or washing up"},{value:"25",text:"25. Arranging, sorting or unpacking household items"},{value:"26",text:"26. Ironing, washing, other laundry tasks or mending clothes"},{value:"27",text:"27. Repairing, maintaining or making household goods, or vehicles"},{value:"28",text:"28. Lighting fire or cleaning fireplace, log burner or wood burning stove"},{value:"29",text:"29. Feeding, caring for or playing with animals (pets)"},{value:"30",text:"30. Walking the dog"},{value:"31",text:"31. DIY"},{value:"32",text:"32. Gardening"}]},
+            { label: "Volunteering", options: [{value:"33",text:"33. Volunteering as part of a group, organisation, charity, or sports club"}]},
+            { label: "Caring for and looking after children and adults", options: [{value:"34",text:"34. Feeding, washing, dressing or preparing meals for children"},{value:"35",text:"35. Reading with children, helping with homework"},{value:"36",text:"36. Playing with children"},{value:"37",text:"37. Attending or watching a child's event or activity"},{value:"38",text:"38. Supporting, comforting or cuddling children"},{value:"39",text:"39. Other childcare not elsewhere listed"},{value:"40",text:"40. Helping, caring for and looking after adults (aged 18+)"}]},
+            { label: "Shopping, household administration tasks and appointments", options: [{value:"41",text:"41. Buying something, shopping"},{value:"42",text:"42. Browsing things to buy later, or window shopping"},{value:"43",text:"43. Household administration tasks"},{value:"44",text:"44. Attending appointments or errands"},{value:"45",text:"45. Queueing or waiting"},{value:"46",text:"46. Completing a document"}]},
+            { label: "Free time, entertainment and socialising", options: [{value:"47",text:"47. Watching TV and DVDs"},{value:"48",text:"48. Checking phone or tablet"},{value:"49",text:"49. Listening to music, podcasts, audiobooks, talk shows, radio or news"},{value:"50",text:"50. Playing games or computer gaming"},{value:"51",text:"51. Checking or using social media"},{value:"52",text:"52. Browsing internet"},{value:"53",text:"53. Checking email"},{value:"54",text:"54. Reading books, magazines or newspapers"},{value:"55",text:"55. Socialising, spending time with friends, family, neighbours and colleagues"},{value:"56",text:"56. Having a conversation"},{value:"57",text:"57. Writing, texting or emailing"},{value:"58",text:"58. Visits to cinema, theatre, concerts, sporting events, museums, galleries, library etc."},{value:"59",text:"59. Attending a meeting or an event"},{value:"60",text:"60. Hobbies and other leisure activities"},{value:"61",text:"61. Resting (doing nothing) or in bed not asleep"}]},
+            { label: "Exercise, health and being active", options: [{value:"62",text:"62. Gym, fitness, or exercise classes"},{value:"63",text:"63. Running or jogging"},{value:"64",text:"64. Cycling"},{value:"65",text:"65. Playing team sports"},{value:"66",text:"66. Playing other sports and exercising"},{value:"67",text:"67. Going for a walk as exercise"},{value:"68",text:"68. Meditating, having a massage, spa or wellbeing treatments"},{value:"69",text:"69. Other health or well-being activity"}]},
+            { label: "Education and study", options: [{value:"70",text:"70. Attending formal education or taking a course"},{value:"71",text:"71. Learning or teaching yourself a skill not involving taught classes"},{value:"72",text:"72. Studying, revising or doing homework"}]},
+            { label: "Other computer use", options: [{value:"73",text:"73. Other computer or laptop use"}]},
+            { label: "Other or personal", options: [{value:"74",text:"74. Other activities not listed"},{value:"75",text:"75. Praying"},{value:"76",text:"76. Smoking or vaping"},{value:"77",text:"77. Completing the time-use diary"}]}
         ];
 
         const whoForOptions = [
-            { value: "", text: "Select..." },
-            { value: "myself/whole household", text: "Myself/Household" },
-            { value: "child", text: "Child/Children" },
-            { value: "adult", text: "Another Adult" }
+            {value:"",text:"Select..."},
+            {value:"myself/whole household",text:"Myself/Household"},
+            {value:"child",text:"Child/Children"},
+            {value:"adult",text:"Another Adult"}
         ];
 
-        const roomTypes = [
-            { value: "", text: "Select room type..." },
-            { value: "living_room", text: "Living Room" },
-            { value: "kitchen", text: "Kitchen" },
-            { value: "dining_room", text: "Dining Room" },
-            { value: "bedroom", text: "Bedroom" },
-            { value: "bathroom", text: "Bathroom" },
-            { value: "storeroom", text: "Storeroom" },
-            { value: "porch_terrace", text: "Porch/Terrace" },
-            { value: "outside", text: "Outside" }
+        const whereTypes = [
+            {value:"",text:"Select location..."},
+            {value:"living_room",text:"Living Room"},
+            {value:"kitchen",text:"Kitchen"},
+            {value:"dining_room",text:"Dining Room"},
+            {value:"bedroom",text:"Bedroom"},
+            {value:"bathroom",text:"Bathroom"},
+            {value:"storeroom",text:"Storeroom"},
+            {value:"porch_terrace",text:"Porch/Terrace"},
+            {value:"outside",text:"Outside"},
+            {value:"other",text:"Other"}
+        ];
+
+        const roomTypesNoOutside = [
+            {value:"",text:"Select room type..."},
+            {value:"living_room",text:"Living Room"},
+            {value:"kitchen",text:"Kitchen"},
+            {value:"dining_room",text:"Dining Room"},
+            {value:"bedroom",text:"Bedroom"},
+            {value:"bathroom",text:"Bathroom"},
+            {value:"storeroom",text:"Storeroom"},
+            {value:"porch_terrace",text:"Porch/Terrace"},
+            {value:"other",text:"Other"}
+        ];
+
+        const roomCheckboxOptions = [
+            {value:"living_room",text:"Living Room"},
+            {value:"kitchen",text:"Kitchen"},
+            {value:"dining_room",text:"Dining Room"},
+            {value:"bedroom",text:"Bedroom"},
+            {value:"bathroom",text:"Bathroom"},
+            {value:"storeroom",text:"Storeroom"},
+            {value:"porch_terrace",text:"Porch/Terrace"},
+            {value:"other",text:"Other"}
         ];
 
         const sizeOptions = [
-            { value: "", text: "Select size..." },
-            { value: "1-1.9", text: "Under 50 sq ft" },
-            { value: "2-2.9", text: "50–90 sq ft" },
-            { value: "3-3.9", text: "90–130 sq ft" },
-            { value: "4-4.9", text: "130–180 sq ft" },
-            { value: "5+", text: "180–250 sq ft" },
-            { value: "5+", text: "250–300 sq ft" },
-            { value: "5+", text: "Over 300 sq ft" }
+            {value:"",text:"Select size..."},
+            {value:"under_50sqft",text:"Under 50 sq ft(fits a chair or small desk)"},
+            {value:"50_90sqft",text:"50–90 sq ft(fits a desk, chair, and shelving)"},
+            {value:"90_130sqft",text:"90–130 sq ft(fits a single/twin bed plus small furniture)"},
+            {value:"130_180sqft",text:"130–180 sq ft(fits a double bed and circulation space)"},
+            {value:"180_250sqft",text:"180–250 sq ft(about one car garage space)"},
+            {value:"250_300sqft",text:"250–300 sq ft(fits multiple activity or seating zones)"},
+            {value:"over_300sqft",text:"Over 300 sq ft(suitable for shared, studio-like, or multi-functional use)"}
         ];
 
         const orientations = [
-            { value: "", text: "Select orientation..." },
-            { value: "north", text: "North" },
-            { value: "south", text: "South" },
-            { value: "east", text: "East" },
-            { value: "west", text: "West" }
+            {value:"",text:"Select orientation..."},
+            {value:"north",text:"North"},
+            {value:"south",text:"South"},
+            {value:"east",text:"East"},
+            {value:"west",text:"West"}
         ];
 
         let entryCount = 0;
 
         function createActivityOptions() {
             let html = '<option value="">Select an activity...</option>';
-            activitiesGrouped.forEach(group => {
-                html += `<optgroup label="${group.label}">`;
-                group.options.forEach(opt => {
-                    html += `<option value="${opt.value}">${opt.text}</option>`;
-                });
+            activitiesGrouped.forEach(g => {
+                html += '<optgroup label="' + g.label + '">';
+                g.options.forEach(o => { html += '<option value="' + o.value + '">' + o.text + '</option>'; });
                 html += '</optgroup>';
             });
             return html;
         }
 
-        function createSimpleOptions(optionsArray) {
-            return optionsArray.map(opt => 
-                `<option value="${opt.value}">${opt.text}</option>`
+        function createSimpleOptions(arr) {
+            return arr.map(o => '<option value="' + o.value + '">' + o.text + '</option>').join('');
+        }
+
+        function createCheckboxGroup(name, id) {
+            return roomCheckboxOptions.map(o =>
+                '<label><input type="checkbox" name="' + name + '-' + id + '" value="' + o.value + '"> ' + o.text + '</label>'
             ).join('');
         }
 
-        function addEntry(startTime = '') {
+        function addEntry() {
             entryCount++;
-            const isFirst = entryCount === 1;
-            const defaultStartTime = isFirst ? '04:00' : startTime;
-            
-            const entryHTML = `
-                <div class="entry-card" id="entry-${entryCount}">
-                    <div class="entry-header">
-                        <span class="entry-number">Entry #${entryCount}</span>
-                        ${!isFirst ? `<button class="delete-btn" onclick="deleteEntry(${entryCount})">Delete</button>` : ''}
-                    </div>
-                    
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Start Time *</label>
-                            <input type="time" id="start-${entryCount}" value="${defaultStartTime}" ${isFirst ? 'readonly' : ''} onchange="calculateDuration(${entryCount})">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>End Time *</label>
-                            <input type="time" id="end-${entryCount}" onchange="calculateDuration(${entryCount})">
-                            <div class="time-duration" id="duration-${entryCount}"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Main Activity *</label>
-                            <select id="main-activity-${entryCount}">
-                                ${createActivityOptions()}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Secondary Activity</label>
-                            <select id="secondary-activity-${entryCount}">
-                                ${createActivityOptions()}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Where *</label>
-                            <select id="where-${entryCount}" onchange="toggleWhereOther(${entryCount})">
-                                ${createSimpleOptions(roomTypes)}
-                            </select>
-                        </div>
+            const n = entryCount;
+            const isFirst = n === 1;
+            const defaultStart = isFirst ? '04:00' : '';
 
-                        <div class="form-group" id="where-other-group-${entryCount}" style="display: none;">
-                            <label>Specify location</label>
-                            <input type="text" id="where-other-${entryCount}" placeholder="Please specify">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Who did you do this for?</label>
-                            <select id="who-for-${entryCount}">
-                                ${createSimpleOptions(whoForOptions)}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Tools Used</label>
-                            <input type="text" id="tools-${entryCount}" placeholder="e.g., Phone, Laptop, None, etc.">
-                        </div>
-                    </div>
-                    
-                    <div class="spatial-section">
-                        <h3>Ideal Room Description for This Activity *</h3>
-                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 16px;">If you have no room preference for any item, you can leave it blank.</p>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Room Type</label>
-                                <select id="room-type-${entryCount}" onchange="toggleRoomTypeOther(${entryCount})">
-                                    ${createSimpleOptions(roomTypes)}
-                                </select>
-                            </div>
-                            
-                            <div class="form-group" id="room-type-other-group-${entryCount}" style="display: none;">
-                                <label>Specify room type</label>
-                                <input type="text" id="room-type-other-${entryCount}" placeholder="Please specify">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Size</label>
-                                <select id="room-size-${entryCount}">
-                                    ${createSimpleOptions(sizeOptions)}
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Adjacent to</label>
-                                <select id="adjacency-${entryCount}" onchange="toggleAdjacencyOther(${entryCount})">
-                                    ${createSimpleOptions(roomTypes)}
-                                </select>
-                            </div>
-                            
-                            <div class="form-group" id="adjacency-other-group-${entryCount}" style="display: none;">
-                                <label>Specify adjacent room</label>
-                                <input type="text" id="adjacency-other-${entryCount}" placeholder="Please specify">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Connected to</label>
-                                <select id="connectivity-${entryCount}" onchange="toggleConnectivityOther(${entryCount})">
-                                    ${createSimpleOptions(roomTypes)}
-                                </select>
-                            </div>
-                            
-                            <div class="form-group" id="connectivity-other-group-${entryCount}" style="display: none;">
-                                <label>Specify connected room</label>
-                                <input type="text" id="connectivity-other-${entryCount}" placeholder="Please specify">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Orientation</label>
-                                <select id="orientation-${entryCount}">
-                                    ${createSimpleOptions(orientations)}
-                                </select>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label>Additional Notes</label>
-                                <textarea id="notes-${entryCount}" placeholder="Any other spatial preferences or requirements..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('entries-container').insertAdjacentHTML('beforeend', entryHTML);
+            const html = '<div class="entry-card" id="entry-' + n + '">' +
+                '<div class="entry-header">' +
+                '<span class="entry-number">Entry #' + n + '</span>' +
+                (!isFirst ? '<button class="delete-btn" onclick="deleteEntry(' + n + ')">Delete</button>' : '') +
+                '</div>' +
+                '<div class="form-grid">' +
+                '<div class="form-group"><label>Start Time *</label><input type="time" id="start-' + n + '" value="' + defaultStart + '" ' + (isFirst ? 'readonly' : '') + ' onchange="calculateDuration(' + n + ')"></div>' +
+                '<div class="form-group"><label>End Time *</label><input type="time" id="end-' + n + '" onchange="calculateDuration(' + n + ')"><div class="time-duration" id="duration-' + n + '"></div></div>' +
+                '<div class="form-group"><label>Main Activity *</label><select id="main-activity-' + n + '">' + createActivityOptions() + '</select></div>' +
+                '<div class="form-group"><label>Secondary Activity</label><select id="secondary-activity-' + n + '">' + createActivityOptions() + '</select></div>' +
+                '<div class="form-group"><label>Where *</label><select id="where-' + n + '" onchange="toggleWhereOther(' + n + ')">' + createSimpleOptions(whereTypes) + '</select></div>' +
+                '<div class="form-group" id="where-other-group-' + n + '" style="display:none;"><label>Specify location</label><input type="text" id="where-other-' + n + '" placeholder="Please specify"></div>' +
+                '<div class="form-group"><label>Who did you do this for?</label><select id="who-for-' + n + '">' + createSimpleOptions(whoForOptions) + '</select></div>' +
+                '<div class="form-group"><label>Tools Used</label><input type="text" id="tools-' + n + '" placeholder="e.g., Phone, Laptop, None, etc."></div>' +
+                '</div>' +
+                '<div class="spatial-section">' +
+                '<h3>Ideal Room Description for This Activity</h3>' +
+                '<p class="spatial-hint">If this activity takes place outdoors or in a non-residential setting, feel free to skip this section. Otherwise, if you have no room preference for any item, you can leave it blank.</p>' +
+                '<div class="form-grid">' +
+                '<div class="form-group"><label>Room Type</label><select id="room-type-' + n + '" onchange="toggleRoomTypeOther(' + n + ')">' + createSimpleOptions(roomTypesNoOutside) + '</select></div>' +
+                '<div class="form-group" id="room-type-other-group-' + n + '" style="display:none;"><label>Specify room type</label><input type="text" id="room-type-other-' + n + '" placeholder="Please specify"></div>' +
+                '<div class="form-group"><label>Size</label><select id="room-size-' + n + '">' + createSimpleOptions(sizeOptions) + '</select></div>' +
+                '<div class="form-group"><label>Orientation</label><select id="orientation-' + n + '">' + createSimpleOptions(orientations) + '</select></div>' +
+                '<div class="form-group full-width"><label>Adjacent to <span style="font-weight:400;color:#888;">(select all that apply)</span></label><div class="room-checkbox-group" id="adjacency-group-' + n + '">' + createCheckboxGroup('adjacency', n) + '</div></div>' +
+                '<div class="form-group full-width"><label>Connected to <span style="font-weight:400;color:#888;">(select all that apply)</span></label><div class="room-checkbox-group" id="connectivity-group-' + n + '">' + createCheckboxGroup('connectivity', n) + '</div></div>' +
+                '<div class="form-group full-width"><label>Additional Notes</label><textarea id="notes-' + n + '" placeholder="Any other spatial preferences or requirements..."></textarea></div>' +
+                '</div></div></div>';
+
+            document.getElementById('entries-container').insertAdjacentHTML('beforeend', html);
         }
 
-        function calculateDuration(entryId) {
-            const startInput = document.getElementById(`start-${entryId}`);
-            const endInput = document.getElementById(`end-${entryId}`);
-            const durationDiv = document.getElementById(`duration-${entryId}`);
-            
-            if (startInput.value && endInput.value) {
-                let start = parseTime(startInput.value);
-                let end = parseTime(endInput.value);
-                
-                // Handle overnight activities
-                if (end < start) {
-                    end += 24 * 60;
-                }
-                
+        function calculateDuration(id) {
+            const s = document.getElementById('start-' + id);
+            const e = document.getElementById('end-' + id);
+            const d = document.getElementById('duration-' + id);
+            if (s.value && e.value) {
+                let start = parseTime(s.value), end = parseTime(e.value);
+                if (end < start) end += 1440;
                 const diff = end - start;
-                const hours = Math.floor(diff / 60);
-                const minutes = diff % 60;
-                
-                durationDiv.textContent = `Duration: ${hours}h ${minutes}m`;
+                d.textContent = 'Duration: ' + Math.floor(diff/60) + 'h ' + (diff%60) + 'm';
             }
         }
 
-        function parseTime(timeString) {
-            const [hours, minutes] = timeString.split(':').map(Number);
-            return hours * 60 + minutes;
-        }
-        
-        function toggleWhereOther(entryId) {
-            const whereSelect = document.getElementById(`where-${entryId}`);
-            const otherGroup = document.getElementById(`where-other-group-${entryId}`);
-            
-            if (whereSelect.value === 'other') {
-                otherGroup.style.display = 'flex';
-            } else {
-                otherGroup.style.display = 'none';
-            }
-        }
-        
-        function toggleRoomTypeOther(entryId) {
-            const roomTypeSelect = document.getElementById(`room-type-${entryId}`);
-            const otherGroup = document.getElementById(`room-type-other-group-${entryId}`);
-            
-            if (roomTypeSelect.value === 'other') {
-                otherGroup.style.display = 'flex';
-            } else {
-                otherGroup.style.display = 'none';
-            }
-        }
-        
-        function toggleAdjacencyOther(entryId) {
-            const adjacencySelect = document.getElementById(`adjacency-${entryId}`);
-            const otherGroup = document.getElementById(`adjacency-other-group-${entryId}`);
-            
-            if (adjacencySelect.value === 'other') {
-                otherGroup.style.display = 'flex';
-            } else {
-                otherGroup.style.display = 'none';
-            }
-        }
-        
-        function toggleConnectivityOther(entryId) {
-            const connectivitySelect = document.getElementById(`connectivity-${entryId}`);
-            const otherGroup = document.getElementById(`connectivity-other-group-${entryId}`);
-            
-            if (connectivitySelect.value === 'other') {
-                otherGroup.style.display = 'flex';
-            } else {
-                otherGroup.style.display = 'none';
-            }
+        function parseTime(t) {
+            const [h, m] = t.split(':').map(Number);
+            return h * 60 + m;
         }
 
-        function deleteEntry(entryId) {
-            const entry = document.getElementById(`entry-${entryId}`);
-            if (entry && confirm('Are you sure you want to delete this entry?')) {
-                entry.remove();
-            }
+        function toggleWhereOther(id) {
+            const v = document.getElementById('where-' + id).value;
+            document.getElementById('where-other-group-' + id).style.display = v === 'other' ? 'flex' : 'none';
+        }
+
+        function toggleRoomTypeOther(id) {
+            const v = document.getElementById('room-type-' + id).value;
+            document.getElementById('room-type-other-group-' + id).style.display = v === 'other' ? 'flex' : 'none';
+        }
+
+        function getChecked(name, id) {
+            return Array.from(document.querySelectorAll('input[name="' + name + '-' + id + '"]:checked')).map(cb => cb.value);
+        }
+
+        function deleteEntry(id) {
+            const el = document.getElementById('entry-' + id);
+            if (el && confirm('Are you sure you want to delete this entry?')) el.remove();
         }
 
         function submitSurvey() {
-            // Check Prolific ID
             const prolificId = document.getElementById('prolific-id').value.trim();
-            if (!prolificId) {
-                alert('Please enter your Prolific ID before submitting.');
-                document.getElementById('prolific-id').focus();
-                return;
-            }
-            
-            // Check demographics
+            if (!prolificId) { alert('Please enter your Prolific ID before submitting.'); return; }
+
             const householdType = document.getElementById('household-type').value;
             const householdSize = document.getElementById('household-size').value;
             const workingStatus = document.getElementById('working-status').value;
             const timeAtHome = document.getElementById('time-at-home').value;
-            
             if (!householdType || !householdSize || !workingStatus || !timeAtHome) {
-                alert('Please fill in all demographic information.');
-                return;
+                alert('Please fill in all demographic information.'); return;
             }
-            
+
             const entries = [];
             const cards = document.querySelectorAll('.entry-card');
-            
             let isValid = true;
-            
+
             cards.forEach((card, index) => {
                 const id = card.id.split('-')[1];
-                
-                const whereValue = document.getElementById(`where-${id}`).value;
-                const whereOther = document.getElementById(`where-other-${id}`).value;
+                const whereValue = document.getElementById('where-' + id).value;
+                const whereOther = document.getElementById('where-other-' + id).value;
                 const whereLocation = whereValue === 'other' ? whereOther : whereValue;
-                
-                const roomTypeValue = document.getElementById(`room-type-${id}`).value;
-                const roomTypeOther = document.getElementById(`room-type-other-${id}`).value;
+                const roomTypeValue = document.getElementById('room-type-' + id).value;
+                const roomTypeOther = document.getElementById('room-type-other-' + id).value;
                 const roomType = roomTypeValue === 'other' ? roomTypeOther : roomTypeValue;
-                
-                const adjacencyValue = document.getElementById(`adjacency-${id}`).value;
-                const adjacencyOther = document.getElementById(`adjacency-other-${id}`).value;
-                const adjacency = adjacencyValue === 'other' ? adjacencyOther : adjacencyValue;
-                
-                const connectivityValue = document.getElementById(`connectivity-${id}`).value;
-                const connectivityOther = document.getElementById(`connectivity-other-${id}`).value;
-                const connectivity = connectivityValue === 'other' ? connectivityOther : connectivityValue;
-                
+
                 const entry = {
                     entryNumber: index + 1,
-                    startTime: document.getElementById(`start-${id}`).value,
-                    endTime: document.getElementById(`end-${id}`).value,
-                    mainActivity: document.getElementById(`main-activity-${id}`).value,
-                    secondaryActivity: document.getElementById(`secondary-activity-${id}`).value,
-                    whoFor: document.getElementById(`who-for-${id}`).value,
+                    startTime: document.getElementById('start-' + id).value,
+                    endTime: document.getElementById('end-' + id).value,
+                    mainActivity: document.getElementById('main-activity-' + id).value,
+                    secondaryActivity: document.getElementById('secondary-activity-' + id).value,
+                    whoFor: document.getElementById('who-for-' + id).value,
                     where: whereLocation,
-                    tools: document.getElementById(`tools-${id}`).value,
+                    tools: document.getElementById('tools-' + id).value,
                     spatialPreferences: {
                         roomType: roomType,
-                        size: document.getElementById(`room-size-${id}`).value,
-                        adjacency: adjacency,
-                        connectivity: connectivity,
-                        orientation: document.getElementById(`orientation-${id}`).value,
-                        notes: document.getElementById(`notes-${id}`).value
+                        size: document.getElementById('room-size-' + id).value,
+                        adjacency: getChecked('adjacency', id),
+                        connectivity: getChecked('connectivity', id),
+                        orientation: document.getElementById('orientation-' + id).value,
+                        notes: document.getElementById('notes-' + id).value
                     }
                 };
-                
-                // Check all required fields
-                if (!entry.startTime || !entry.endTime || !entry.mainActivity || 
-                    !entry.whoFor || !entry.where) {
-                    isValid = false;
-                }
-                
-                if (whereValue === 'other' && !whereOther.trim()) {
-                    isValid = false;
-                }
-                
+
+                if (!entry.startTime || !entry.endTime || !entry.mainActivity || !entry.where) isValid = false;
+                if (whereValue === 'other' && !whereOther.trim()) isValid = false;
                 entries.push(entry);
             });
-            
-            if (!isValid) {
-                alert('Please fill in all required fields (marked with *) for all entries.');
-                return;
-            }
-            
-            // Confirmation dialog
-            if (!confirm('Are you sure you want to submit your completed survey?')) {
-                return;
-            }
-            
-            // Prepare data with Prolific ID and demographics
+
+            if (!isValid) { alert('Please fill in all required fields (marked with *) for all entries.'); return; }
+            if (!confirm('Are you sure you want to submit your completed survey?')) return;
+
             const surveyData = {
-                prolificId: prolificId,
-                demographics: {
-                    householdType: householdType,
-                    householdSize: householdSize,
-                    workingStatus: workingStatus,
-                    timeAtHome: timeAtHome
-                },
+                prolificId,
+                demographics: { householdType, householdSize, workingStatus, timeAtHome },
                 submittedAt: new Date().toISOString(),
-                entries: entries
+                entries
             };
-            
-            console.log('Survey Data:', surveyData);
-            
-            // Convert to JSON and download
-            const dataStr = JSON.stringify(surveyData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `time-use-survey-${prolificId}-${new Date().toISOString().split('T')[0]}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            // Hide survey and show completion page
+
+            const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(surveyData, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute('href', dataUri);
+            a.setAttribute('download', 'time-use-survey-' + prolificId + '-' + new Date().toISOString().split('T')[0] + '.json');
+            a.click();
+
             document.getElementById('survey-container').classList.add('hidden');
             document.getElementById('completion-page').classList.add('active');
         }
 
-        // Initialize with first entry
         addEntry();
     </script>
 </body>
