@@ -288,13 +288,6 @@
         { label: "Other or personal", options: [{value:"74",text:"74. Other activities not listed"},{value:"75",text:"75. Praying"},{value:"76",text:"76. Smoking or vaping"},{value:"77",text:"77. Completing the time-use diary"}]}
     ];
 
-    const whoForOptions = [
-        {value:"",text:"Select..."},
-        {value:"myself/whole household",text:"Myself/Household"},
-        {value:"child",text:"Child/Children"},
-        {value:"adult",text:"Another Adult"}
-    ];
-
     const whereTypes = [
         {value:"",text:"Select location..."},
         {value:"living_room",text:"Living Room"},
@@ -357,24 +350,6 @@
         {value:"west",text:"West"}
     ];
 
-    const roomCheckboxOptions = [
-        {value:"living_room",text:"Living Room"},
-        {value:"kitchen",text:"Kitchen"},
-        {value:"dining_room",text:"Dining Room"},
-        {value:"bedroom1",text:"Bedroom1"},
-        {value:"bedroom2",text:"Bedroom2"},
-        {value:"bedroom3",text:"Bedroom3"},
-        {value:"bedroom4",text:"Bedroom4"},
-        {value:"bedroom5",text:"Bedroom5"},
-        {value:"bedroom6",text:"Bedroom6"},
-        {value:"bathroom1",text:"Bathroom1"},
-        {value:"bathroom2",text:"Bathroom2"},
-        {value:"bathroom3",text:"Bathroom3"},
-        {value:"storage",text:"Storage"},
-        {value:"garage",text:"Garage"},
-        {value:"balcony_terrace_garden",text:"Balcony/Terrace/Garden"}
-    ];
-
     let entryCount = 0;
 
     function createActivityOptions() {
@@ -392,27 +367,6 @@
     }
 
     // Checkbox group: "No preference / Non-residential" is first and mutually exclusive with room selections
-    function createCheckboxGroup(name, id) {
-        let html = '<label style="color:#666;font-style:italic;"><input type="checkbox" name="' + name + '-' + id + '" value="no_preference" onchange="handleNoPreference(this,\'' + name + '\',' + id + ')"> No preference / Non-residential</label>';
-        html += roomCheckboxOptions.map(o =>
-            '<label><input type="checkbox" name="' + name + '-' + id + '" value="' + o.value + '" onchange="handleRoomCheck(this,\'' + name + '\',' + id + ')"> ' + o.text + '</label>'
-        ).join('');
-        return html;
-    }
-
-    function handleNoPreference(cb, name, id) {
-        if (cb.checked) {
-            document.querySelectorAll('input[name="' + name + '-' + id + '"]:not([value="no_preference"])').forEach(el => el.checked = false);
-        }
-    }
-
-    function handleRoomCheck(cb, name, id) {
-        if (cb.checked) {
-            const noPref = document.querySelector('input[name="' + name + '-' + id + '"][value="no_preference"]');
-            if (noPref) noPref.checked = false;
-        }
-    }
-
     function toggleHint() {
         const body = document.getElementById('hint-box-body');
         const btn = document.getElementById('hint-toggle-btn');
@@ -439,18 +393,31 @@
             '<div class="form-group"><label>Secondary Activity</label><select id="secondary-activity-' + n + '">' + createActivityOptions() + '</select></div>' +
             '<div class="form-group"><label>Location *</label><select id="where-' + n + '" onchange="toggleWhereOther(' + n + ')">' + createSimpleOptions(whereTypes) + '</select></div>' +
             '<div class="form-group" id="where-other-group-' + n + '" style="display:none;"><label>Specify location</label><input type="text" id="where-other-' + n + '" placeholder="Please specify"></div>' +
-            '<div class="form-group"><label>Who did you do this for? *</label><select id="who-for-' + n + '">' + createSimpleOptions(whoForOptions) + '</select></div>' +
-            '<div class="form-group"><label>Tools Used</label><input type="text" id="tools-' + n + '" placeholder="e.g., Phone, Laptop, None, etc."></div>' +
+            '<div class="form-group"><label>Number of People Involved *</label><select id="people-count-' + n + '">' +
+            '<option value="">Select...</option>' +
+            '<option value="1">1 (alone)</option>' +
+            '<option value="2">2</option>' +
+            '<option value="3">3</option>' +
+            '<option value="4">4</option>' +
+            '<option value="5">5</option>' +
+            '<option value="6_or_more">6 or more</option>' +
+            '</select></div>' +
+            '<div class="form-group full-width"><label>Who was involved? <span style="font-weight:400;color:#888;">(select all that apply)</span></label>' +
+            '<div class="room-checkbox-group">' +
+            '<label><input type="checkbox" name="people-type-' + n + '" value="baby"> Baby (under 3)</label>' +
+            '<label><input type="checkbox" name="people-type-' + n + '" value="child"> Child (under 18)</label>' +
+            '<label><input type="checkbox" name="people-type-' + n + '" value="adult"> Adult</label>' +
+            '<label><input type="checkbox" name="people-type-' + n + '" value="elder"> Elder (65 or over)</label>' +
+            '</div></div>' +
             '</div>' +
             '<div class="spatial-section">' +
             '<h3>Ideal Room Description for This Activity *</h3>' +
-            '<p class="spatial-hint">For each field below, describe your ideal room preference for this activity. If the activity takes place <strong>outdoors or in a non-residential setting</strong>, or if you have <strong>no specific room preference</strong>, please select <strong>"No preference / Non-residential"</strong> for the dropdowns and check <strong>"No preference / Non-residential"</strong> for the adjacency and connectivity options. At least one selection is required for each field.</p>' +
+            '<p class="spatial-hint">For each field below, describe your ideal room preference for this activity. If the activity takes place <strong>outdoors or in a non-residential setting</strong>, or if you have <strong>no specific room preference</strong>, please select <strong>"No preference / Non-residential"</strong> . At least one selection is required for each field.</p>' +
             '<div class="form-grid">' +
             '<div class="form-group"><label>Room Type *</label><select id="room-type-' + n + '">' + createSimpleOptions(roomTypesNoOutside) + '</select></div>' +
             '<div class="form-group"><label>Size *</label><select id="room-size-' + n + '">' + createSimpleOptions(sizeOptions) + '</select></div>' +
             '<div class="form-group"><label>Orientation *</label><select id="orientation-' + n + '">' + createSimpleOptions(orientations) + '</select></div>' +
-            '<div class="form-group full-width"><label>Adjacent to * <span style="font-weight:400;color:#888;">(Which rooms are located next to the room where the activity takes place? These rooms share a wall though they may not be directly accessible)</span></label><div class="room-checkbox-group" id="adjacency-group-' + n + '">' + createCheckboxGroup('adjacency', n) + '</div></div>' +
-            '<div class="form-group full-width"><label>Connected to * <span style="font-weight:400;color:#888;">(Which rooms are physically connected via a door or passage for direct access to the room where the activity takes place?)</span></label><div class="room-checkbox-group" id="connectivity-group-' + n + '">' + createCheckboxGroup('connectivity', n) + '</div></div>' +
+
             '<div class="form-group full-width"><label>Additional Notes <span style="font-weight:400;color:#888;">(optional)</span></label><textarea id="notes-' + n + '" placeholder="Any other spatial preferences or requirements..."></textarea></div>' +
             '</div></div></div>';
 
@@ -527,8 +494,8 @@
             const roomTypeValue = document.getElementById('room-type-' + id).value;
             const roomSizeValue = document.getElementById('room-size-' + id).value;
             const orientationValue = document.getElementById('orientation-' + id).value;
-            const adjacency = getChecked('adjacency', id);
-            const connectivity = getChecked('connectivity', id);
+            const peopleCount = document.getElementById('people-count-' + id).value;
+            const peopleTypes = getChecked('people-type', id);
 
             // Basic required field checks
             if (!document.getElementById('start-' + id).value ||
@@ -556,29 +523,18 @@
                 isValid = false;
                 missingFields.push('Activity #' + actNum + ': Orientation is required — select an orientation or "No preference / Non-residential".');
             }
-            if (adjacency.length === 0) {
-                isValid = false;
-                missingFields.push('Activity #' + actNum + ': "Adjacent to" — please select at least one option or check "No preference / Non-residential".');
-            }
-            if (connectivity.length === 0) {
-                isValid = false;
-                missingFields.push('Activity #' + actNum + ': "Connected to" — please select at least one option or check "No preference / Non-residential".');
-            }
-
             entries.push({
                 entryNumber: actNum,
                 startTime: document.getElementById('start-' + id).value,
                 endTime: document.getElementById('end-' + id).value,
                 mainActivity: document.getElementById('main-activity-' + id).value,
                 secondaryActivity: document.getElementById('secondary-activity-' + id).value,
-                whoFor: document.getElementById('who-for-' + id).value,
+                peopleCount: peopleCount,
+                peopleTypes: peopleTypes,
                 where: whereLocation,
-                tools: document.getElementById('tools-' + id).value,
                 spatialPreferences: {
                     roomType: roomTypeValue,
                     size: roomSizeValue,
-                    adjacency: adjacency,
-                    connectivity: connectivity,
                     orientation: orientationValue,
                     notes: document.getElementById('notes-' + id).value
                 }
