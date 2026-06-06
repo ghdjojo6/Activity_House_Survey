@@ -18,6 +18,14 @@
         .housing-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; transition: border-color 0.2s, border-width 0.2s; }
         .housing-section:focus-within { border: 2px solid #0066cc; }
         .housing-section h3 { font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 16px; }
+        .values-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; }
+        .values-section h3 { font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 6px; }
+        .values-desc { font-size: 0.88rem; color: #666; margin-bottom: 16px; line-height: 1.5; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+        .value-item { display: flex; align-items: center; gap: 10px; background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 4px; padding: 10px 14px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+        .value-item:hover { border-color: #0066cc; background: #eef4ff; }
+        .value-item input[type="radio"] { accent-color: #0066cc; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .value-item label { font-size: 0.92rem; color: #333; cursor: pointer; line-height: 1.4; }
         .info-box { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin-bottom: 30px; border-left: 4px solid #0066cc; }
         .info-box p { color: #555; font-size: 0.95rem; }
         .completion-page { display: none; text-align: center; padding: 60px 20px; }
@@ -73,26 +81,27 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .submitting-box p { font-size: 1.05rem; color: #444; }
 
-        /* Custom AM-first time picker */
+        /* Custom time picker */
         .time-picker-wrapper { position: relative; }
-        .time-display-input { width: 100%; background: #fff; border: 1px solid #ccc; color: #333; padding: 8px 12px; border-radius: 4px; font-family: inherit; font-size: 0.95rem; cursor: pointer; text-align: left; }
-        .time-display-input:focus { outline: none; border-color: #0066cc; }
-        .time-display-input.readonly-time { cursor: default; background: #f5f5f5; }
-        .time-popup { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 999; background: #fff; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); padding: 14px; min-width: 260px; }
+        .time-display-btn { width: 100%; background: #fff; border: 1px solid #ccc; color: #333; padding: 8px 12px; border-radius: 4px; font-family: inherit; font-size: 0.95rem; cursor: pointer; text-align: left; }
+        .time-display-btn:focus { outline: none; border-color: #0066cc; }
+        .time-display-btn.is-readonly { cursor: default; background: #fff; pointer-events: none; }
+        .time-popup { display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 9999; background: #fff; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); padding: 14px; min-width: 240px; }
         .time-popup.open { display: block; }
-        .time-popup-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .time-popup-row label { font-size: 0.85rem; font-weight: 600; color: #555; width: 55px; flex-shrink: 0; margin: 0; }
-        .time-popup-row select { flex: 1; padding: 6px 8px; font-size: 0.9rem; margin: 0; }
-        .time-popup-ampm { display: flex; gap: 6px; flex: 1; }
-        .time-popup-ampm button { flex: 1; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 0.88rem; font-weight: 600; }
-        .time-popup-ampm button.active { background: #0066cc; color: #fff; border-color: #0066cc; }
-        .time-popup-confirm { background: #0066cc; color: #fff; border: none; border-radius: 4px; padding: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 4px; }
-        .time-popup-confirm:hover { background: #0052a3; }
+        .tp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .tp-row > span { font-size: 0.85rem; font-weight: 600; color: #555; width: 55px; flex-shrink: 0; }
+        .tp-row select { flex: 1; padding: 6px 8px; font-size: 0.9rem; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
+        .tp-ampm { display: flex; gap: 6px; flex: 1; }
+        .tp-ampm button { flex: 1; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 0.88rem; font-weight: 600; }
+        .tp-ampm button.active { background: #0066cc; color: #fff; border-color: #0066cc; }
+        .tp-confirm { background: #0066cc; color: #fff; border: none; border-radius: 4px; padding: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 4px; }
+        .tp-confirm:hover { background: #0052a3; }
 
         @media (max-width: 768px) {
             h1 { font-size: 1.5rem; }
             .form-grid { grid-template-columns: 1fr; }
             .entry-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .values-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -201,6 +210,49 @@
             </div>
         </div>
 
+        <div class="values-section">
+            <h3>Residential Values *</h3>
+            <p class="values-desc">What is the most important value to you when it comes to residential preferences &amp; choices? Please select <strong>one</strong> option that best reflects your priorities.</p>
+            <div class="values-grid">
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-exciting" value="an_exciting_life">
+                    <label for="val-exciting">An exciting life</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-peace" value="a_dwelling_environment_at_peace">
+                    <label for="val-peace">A peaceful home</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-pleasure" value="pleasure">
+                    <label for="val-pleasure">Pleasure</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-image" value="preserving_my_public_image">
+                    <label for="val-image">Preserving my public image</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-security" value="security">
+                    <label for="val-security">Security</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-self-respect" value="self_respect">
+                    <label for="val-self-respect">Self-respect</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-social-recognition" value="social_recognition">
+                    <label for="val-social-recognition">Social recognition</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-social-power" value="social_power">
+                    <label for="val-social-power">Social power</label>
+                </div>
+                <div class="value-item">
+                    <input type="radio" name="residential-value" id="val-nature" value="unity_with_nature">
+                    <label for="val-nature">Unity with nature</label>
+                </div>
+            </div>
+        </div>
+
         <div class="info-box">
             <p>📋 <strong>Please record all activities from 4:00 AM to 4:00 AM (the following day)</strong> during a typical weekday. For each activity, <strong>describe your ideal residential room preferences</strong> for performing that activity. You can add entries for additional activities, and please be as specific as possible.</p>
         </div>
@@ -288,7 +340,7 @@
         {value:"210", text:"Around 210 sq ft (About the size of a large SUV)"},
         {value:"280", text:"Around 280 sq ft (About the size of a standard garage)"},
         {value:"350", text:"Around 350 sq ft (About the size of a school bus)"},
-        {value:"420", text:"Around 420 sq ft or larger (About the size of a city bus)"}
+        {value:"420", text:"Around 420 sq ft or larger (About the size of a city bus)"},
     ];
 
     const orientations = [
@@ -325,115 +377,147 @@
     }
 
     /* ── Custom AM-first time picker ── */
-    function buildTimePicker(containerId, inputId, isReadonly) {
-        const container = document.getElementById(containerId);
+    // Stores time values keyed by inputId: { h24: "HH:MM" }
+    const timeValues = {};
+
+    function createTimePicker(inputId, isReadonly) {
+        timeValues[inputId] = '';
+
         const wrapper = document.createElement('div');
         wrapper.className = 'time-picker-wrapper';
 
         // Display button
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.id = inputId;
-        btn.className = 'time-display-input' + (isReadonly ? ' readonly-time' : '');
-        btn.dataset.value24 = '';
-        btn.textContent = '--:-- --';
+        const displayBtn = document.createElement('button');
+        displayBtn.type = 'button';
+        displayBtn.id = inputId;
+        displayBtn.className = 'time-display-btn' + (isReadonly ? ' is-readonly' : '');
+        displayBtn.textContent = '--:-- --';
 
         // Popup
         const popup = document.createElement('div');
         popup.className = 'time-popup';
-        popup.id = 'popup-' + inputId;
 
-        // Hour row
+        // Hour select
         const hourSel = document.createElement('select');
         for (let h = 1; h <= 12; h++) {
             const opt = document.createElement('option');
-            opt.value = h; opt.textContent = String(h).padStart(2,'0');
+            opt.value = String(h);
+            opt.textContent = String(h).padStart(2, '0');
             hourSel.appendChild(opt);
         }
-        const row1 = document.createElement('div');
-        row1.className = 'time-popup-row';
-        const lb1 = document.createElement('label'); lb1.textContent = 'Hour';
-        row1.appendChild(lb1); row1.appendChild(hourSel);
 
-        // Minute row
+        // Minute select (every 5 min)
         const minSel = document.createElement('select');
         for (let m = 0; m < 60; m += 5) {
             const opt = document.createElement('option');
-            opt.value = m; opt.textContent = String(m).padStart(2,'0');
+            opt.value = String(m);
+            opt.textContent = String(m).padStart(2, '0');
             minSel.appendChild(opt);
         }
-        const row2 = document.createElement('div');
-        row2.className = 'time-popup-row';
-        const lb2 = document.createElement('label'); lb2.textContent = 'Minute';
-        row2.appendChild(lb2); row2.appendChild(minSel);
 
-        // AM/PM row — AM first
+        // AM button (first), PM button (second)
         const amBtn = document.createElement('button');
-        amBtn.type = 'button'; amBtn.textContent = 'AM'; amBtn.className = 'active';
-        const pmBtn = document.createElement('button');
-        pmBtn.type = 'button'; pmBtn.textContent = 'PM';
-        amBtn.onclick = (e) => { e.stopPropagation(); amBtn.classList.add('active'); pmBtn.classList.remove('active'); };
-        pmBtn.onclick = (e) => { e.stopPropagation(); pmBtn.classList.add('active'); amBtn.classList.remove('active'); };
-        const ampmDiv = document.createElement('div');
-        ampmDiv.className = 'time-popup-ampm';
-        ampmDiv.appendChild(amBtn); ampmDiv.appendChild(pmBtn);
-        const row3 = document.createElement('div');
-        row3.className = 'time-popup-row';
-        const lb3 = document.createElement('label'); lb3.textContent = 'AM/PM';
-        row3.appendChild(lb3); row3.appendChild(ampmDiv);
+        amBtn.type = 'button';
+        amBtn.textContent = 'AM';
+        amBtn.className = 'active'; // default AM
 
-        // Confirm
+        const pmBtn = document.createElement('button');
+        pmBtn.type = 'button';
+        pmBtn.textContent = 'PM';
+
+        amBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            amBtn.classList.add('active');
+            pmBtn.classList.remove('active');
+        });
+        pmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            pmBtn.classList.add('active');
+            amBtn.classList.remove('active');
+        });
+
+        const ampmDiv = document.createElement('div');
+        ampmDiv.className = 'tp-ampm';
+        ampmDiv.appendChild(amBtn);
+        ampmDiv.appendChild(pmBtn);
+
+        // Confirm button
         const confirmBtn = document.createElement('button');
         confirmBtn.type = 'button';
-        confirmBtn.className = 'time-popup-confirm';
+        confirmBtn.className = 'tp-confirm';
         confirmBtn.textContent = 'Set Time';
-        confirmBtn.onclick = (e) => {
+        confirmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             e.stopPropagation();
-            const h = parseInt(hourSel.value);
+            const h12 = parseInt(hourSel.value);
             const m = parseInt(minSel.value);
             const isPM = pmBtn.classList.contains('active');
-            const h24 = (h % 12) + (isPM ? 12 : 0);
-            const val24 = String(h24).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-            btn.dataset.value24 = val24;
-            btn.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ' ' + (isPM ? 'PM' : 'AM');
+            const h24 = (h12 === 12 ? 0 : h12) + (isPM ? 12 : 0);
+            const val24 = String(h24).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+            timeValues[inputId] = val24;
+            displayBtn.textContent = String(h12).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ' ' + (isPM ? 'PM' : 'AM');
             popup.classList.remove('open');
-            const entryId = inputId.replace(/^(start|end)-/, '');
-            calculateDuration(entryId);
-        };
+            // trigger duration calc
+            const match = inputId.match(/^(start|end)-(.+)$/);
+            if (match) calculateDuration(match[2]);
+        });
 
-        popup.appendChild(row1); popup.appendChild(row2); popup.appendChild(row3); popup.appendChild(confirmBtn);
+        // Build rows
+        const row1 = document.createElement('div'); row1.className = 'tp-row';
+        const sp1 = document.createElement('span'); sp1.textContent = 'Hour';
+        row1.appendChild(sp1); row1.appendChild(hourSel);
 
+        const row2 = document.createElement('div'); row2.className = 'tp-row';
+        const sp2 = document.createElement('span'); sp2.textContent = 'Minute';
+        row2.appendChild(sp2); row2.appendChild(minSel);
+
+        const row3 = document.createElement('div'); row3.className = 'tp-row';
+        const sp3 = document.createElement('span'); sp3.textContent = 'AM / PM';
+        row3.appendChild(sp3); row3.appendChild(ampmDiv);
+
+        popup.appendChild(row1);
+        popup.appendChild(row2);
+        popup.appendChild(row3);
+        popup.appendChild(confirmBtn);
+
+        // Toggle popup on display button click (only if not readonly)
         if (!isReadonly) {
-            btn.addEventListener('click', (e) => {
+            displayBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                document.querySelectorAll('.time-popup.open').forEach(p => { if (p !== popup) p.classList.remove('open'); });
-                popup.classList.toggle('open');
+                const isOpen = popup.classList.contains('open');
+                // close all other popups first
+                document.querySelectorAll('.time-popup.open').forEach(p => p.classList.remove('open'));
+                if (!isOpen) popup.classList.add('open');
             });
         }
 
-        wrapper.appendChild(btn);
+        // Prevent clicks inside popup from closing it
+        popup.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        wrapper.appendChild(displayBtn);
         wrapper.appendChild(popup);
-        container.appendChild(wrapper);
+        return wrapper;
     }
 
-    document.addEventListener('click', () => {
+    // Close all popups when clicking outside
+    document.addEventListener('click', function() {
         document.querySelectorAll('.time-popup.open').forEach(p => p.classList.remove('open'));
     });
 
-    function getTimeValue24(inputId) {
+    function setTimePicker(inputId, val24) {
+        // val24 = "HH:MM"
+        timeValues[inputId] = val24;
         const el = document.getElementById(inputId);
-        return el ? (el.dataset.value24 || '') : '';
-    }
-
-    function setTimeDisplay(inputId, val24) {
-        const el = document.getElementById(inputId);
-        if (!el || !val24) return;
+        if (!el) return;
         const [hStr, mStr] = val24.split(':');
         const h24 = parseInt(hStr), m = parseInt(mStr);
         const isPM = h24 >= 12;
         const h12 = h24 % 12 || 12;
-        el.dataset.value24 = val24;
-        el.textContent = String(h12).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ' ' + (isPM ? 'PM' : 'AM');
+        el.textContent = String(h12).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ' ' + (isPM ? 'PM' : 'AM');
     }
 
     function addEntry() {
@@ -441,115 +525,64 @@
         const n = entryCount;
         const isFirst = n === 1;
 
-        const card = document.createElement('div');
-        card.className = 'entry-card';
-        card.id = 'entry-' + n;
-
-        // Header
-        const header = document.createElement('div');
-        header.className = 'entry-header';
-        header.innerHTML = '<span class="entry-number">Activity #' + n + '</span>' +
-            (!isFirst ? '<button class="delete-btn" onclick="deleteEntry(' + n + ')">Delete</button>' : '');
-        card.appendChild(header);
-
-        const grid = document.createElement('div');
-        grid.className = 'form-grid';
-
-        // Start time
-        const sg = document.createElement('div');
-        sg.className = 'form-group';
-        sg.innerHTML = '<label>Start Time *</label>';
-        const scont = document.createElement('div');
-        scont.id = 'start-cont-' + n;
-        sg.appendChild(scont);
-        grid.appendChild(sg);
-
-        // End time
-        const eg = document.createElement('div');
-        eg.className = 'form-group';
-        eg.innerHTML = '<label>End Time *</label>';
-        const econt = document.createElement('div');
-        econt.id = 'end-cont-' + n;
-        eg.appendChild(econt);
-        const dur = document.createElement('div');
-        dur.className = 'time-duration'; dur.id = 'duration-' + n;
-        eg.appendChild(dur);
-        grid.appendChild(eg);
-
-        // Main activity
-        const mg = document.createElement('div');
-        mg.className = 'form-group';
-        mg.innerHTML = '<label>Main Activity *</label><select id="main-activity-' + n + '">' + createActivityOptions() + '</select>';
-        grid.appendChild(mg);
-
-        // Secondary activity
-        const seg2 = document.createElement('div');
-        seg2.className = 'form-group';
-        seg2.innerHTML = '<label>Secondary Activity</label><select id="secondary-activity-' + n + '">' + createActivityOptions() + '</select>';
-        grid.appendChild(seg2);
-
-        // Location
-        const wg = document.createElement('div');
-        wg.className = 'form-group';
-        wg.innerHTML = '<label>Location *</label><select id="where-' + n + '" onchange="toggleWhereOther(' + n + ')">' + createSimpleOptions(whereTypes) + '</select>';
-        grid.appendChild(wg);
-
-        // Other location
-        const wog = document.createElement('div');
-        wog.className = 'form-group'; wog.id = 'where-other-group-' + n; wog.style.display = 'none';
-        wog.innerHTML = '<label>Specify location</label><input type="text" id="where-other-' + n + '" placeholder="Please specify">';
-        grid.appendChild(wog);
-
-        // People count
-        const pg = document.createElement('div');
-        pg.className = 'form-group';
-        pg.innerHTML = '<label>Number of People Involved *</label><select id="people-count-' + n + '"><option value="">Select...</option><option value="1">1 (alone)</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6_or_more">6 or more</option></select>';
-        grid.appendChild(pg);
-
-        // People types
-        const ptg = document.createElement('div');
-        ptg.className = 'form-group full-width';
-        ptg.innerHTML = '<label>Who was involved? <span style="font-weight:400;color:#888;">(select all that apply)</span></label>' +
+        const html = '<div class="entry-card" id="entry-' + n + '">' +
+            '<div class="entry-header">' +
+            '<span class="entry-number">Activity #' + n + '</span>' +
+            (!isFirst ? '<button class="delete-btn" onclick="deleteEntry(' + n + ')">Delete</button>' : '') +
+            '</div>' +
+            '<div class="form-grid">' +
+            '<div class="form-group"><label>Start Time *</label><div id="start-wrap-' + n + '"></div></div>' +
+            '<div class="form-group"><label>End Time *</label><div id="end-wrap-' + n + '"></div><div class="time-duration" id="duration-' + n + '"></div></div>' +
+            '<div class="form-group"><label>Main Activity *</label><select id="main-activity-' + n + '">' + createActivityOptions() + '</select></div>' +
+            '<div class="form-group"><label>Secondary Activity</label><select id="secondary-activity-' + n + '">' + createActivityOptions() + '</select></div>' +
+            '<div class="form-group"><label>Location *</label><select id="where-' + n + '" onchange="toggleWhereOther(' + n + ')">' + createSimpleOptions(whereTypes) + '</select></div>' +
+            '<div class="form-group" id="where-other-group-' + n + '" style="display:none;"><label>Specify location</label><input type="text" id="where-other-' + n + '" placeholder="Please specify"></div>' +
+            '<div class="form-group"><label>Number of People Involved *</label><select id="people-count-' + n + '">' +
+            '<option value="">Select...</option>' +
+            '<option value="1">1 (alone)</option>' +
+            '<option value="2">2</option>' +
+            '<option value="3">3</option>' +
+            '<option value="4">4</option>' +
+            '<option value="5">5</option>' +
+            '<option value="6_or_more">6 or more</option>' +
+            '</select></div>' +
+            '<div class="form-group full-width"><label>Who was involved? <span style="font-weight:400;color:#888;">(select all that apply)</span></label>' +
             '<div class="room-checkbox-group">' +
             '<label><input type="checkbox" name="people-type-' + n + '" value="baby"> Baby (under 3)</label>' +
             '<label><input type="checkbox" name="people-type-' + n + '" value="child"> Child (under 18)</label>' +
             '<label><input type="checkbox" name="people-type-' + n + '" value="adult"> Adult</label>' +
             '<label><input type="checkbox" name="people-type-' + n + '" value="elder"> Elder (65 or over)</label>' +
             '<label><input type="checkbox" name="people-type-' + n + '" value="pet"> Pet</label>' +
-            '</div>';
-        grid.appendChild(ptg);
-        card.appendChild(grid);
-
-        // Spatial section
-        const spatial = document.createElement('div');
-        spatial.className = 'spatial-section';
-        spatial.innerHTML = '<h3>Ideal Room Description for This Activity *</h3>' +
+            '</div></div>' +
+            '</div>' +
+            '<div class="spatial-section">' +
+            '<h3>Ideal Room Description for This Activity *</h3>' +
             '<p class="spatial-hint">For each field below, describe your ideal room preference for this activity. If the activity takes place <strong>outdoors or in a non-residential setting</strong>, or if you have <strong>no specific room preference</strong>, please select <strong>"No preference / Non-residential"</strong>. At least one selection is required for each field.</p>' +
             '<div class="form-grid">' +
             '<div class="form-group"><label>Room Type *</label><select id="room-type-' + n + '">' + createSimpleOptions(roomTypesNoOutside) + '</select></div>' +
             '<div class="form-group"><label>Size *</label><select id="room-size-' + n + '">' + createSimpleOptions(sizeOptions) + '</select></div>' +
             '<div class="form-group"><label>Orientation *</label><select id="orientation-' + n + '">' + createSimpleOptions(orientations) + '</select></div>' +
             '<div class="form-group full-width"><label>Additional Notes <span style="font-weight:400;color:#888;">(optional)</span></label><textarea id="notes-' + n + '" placeholder="Any other spatial preferences or requirements..."></textarea></div>' +
-            '</div>';
-        card.appendChild(spatial);
+            '</div></div></div>';
 
-        document.getElementById('entries-container').appendChild(card);
+        document.getElementById('entries-container').insertAdjacentHTML('beforeend', html);
 
-        // Build time pickers after card is in DOM
-        buildTimePicker('start-cont-' + n, 'start-' + n, isFirst);
-        buildTimePicker('end-cont-' + n, 'end-' + n, false);
-        if (isFirst) setTimeDisplay('start-' + n, '04:00');
+        // Inject time pickers after DOM is ready
+        document.getElementById('start-wrap-' + n).appendChild(createTimePicker('start-' + n, isFirst));
+        document.getElementById('end-wrap-' + n).appendChild(createTimePicker('end-' + n, false));
+
+        if (isFirst) setTimePicker('start-' + n, '04:00');
     }
 
     function calculateDuration(id) {
-        const s24 = getTimeValue24('start-' + id);
-        const e24 = getTimeValue24('end-' + id);
+        const s24 = timeValues['start-' + id] || '';
+        const e24 = timeValues['end-' + id] || '';
         const d = document.getElementById('duration-' + id);
-        if (d && s24 && e24) {
+        if (s24 && e24 && d) {
             let start = parseTime(s24), end = parseTime(e24);
             if (end < start) end += 1440;
             const diff = end - start;
-            d.textContent = 'Duration: ' + Math.floor(diff/60) + 'h ' + (diff%60) + 'm';
+            d.textContent = 'Duration: ' + Math.floor(diff / 60) + 'h ' + (diff % 60) + 'm';
         }
     }
 
@@ -591,6 +624,11 @@
             alert('Please fill in all housing information.'); return;
         }
 
+        const selectedValue = document.querySelector('input[name="residential-value"]:checked');
+        if (!selectedValue) {
+            alert('Please select a value under "Residential Values" before submitting.'); return;
+        }
+
         const entries = [];
         const cards = document.querySelectorAll('.entry-card');
         let isValid = true;
@@ -600,11 +638,10 @@
             const id = card.id.split('-')[1];
             const actNum = index + 1;
 
-            const startTime = getTimeValue24('start-' + id);
-            const endTime = getTimeValue24('end-' + id);
+            const startTime = timeValues['start-' + id] || '';
+            const endTime = timeValues['end-' + id] || '';
             const whereValue = document.getElementById('where-' + id).value;
-            const whereOtherEl = document.getElementById('where-other-' + id);
-            const whereOther = whereOtherEl ? whereOtherEl.value : '';
+            const whereOther = document.getElementById('where-other-' + id) ? document.getElementById('where-other-' + id).value : '';
             const whereLocation = whereValue === 'other' ? whereOther : whereValue;
             const roomTypeValue = document.getElementById('room-type-' + id).value;
             const roomSizeValue = document.getElementById('room-size-' + id).value;
@@ -620,9 +657,9 @@
                 isValid = false;
                 missingFields.push('Activity #' + actNum + ': Please specify the location.');
             }
-            if (!roomTypeValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Room Type is required.'); }
-            if (!roomSizeValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Size is required.'); }
-            if (!orientationValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Orientation is required.'); }
+            if (!roomTypeValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Room Type is required — select a room type or "No preference / Non-residential".'); }
+            if (!roomSizeValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Size is required — select a size or "No preference / Non-residential".'); }
+            if (!orientationValue) { isValid = false; missingFields.push('Activity #' + actNum + ': Orientation is required — select an orientation or "No preference / Non-residential".'); }
 
             entries.push({
                 entryNumber: actNum,
@@ -641,21 +678,18 @@
         });
 
         if (cards.length < 5) {
-            alert('Please add at least 5 activity entries before submitting. You currently have ' + cards.length + '.');
-            return;
+            alert('Please add at least 5 activity entries before submitting. You currently have ' + cards.length + '.'); return;
         }
 
         const lastCard = cards[cards.length - 1];
         const lastId = lastCard.id.split('-')[1];
-        const lastEndTime = getTimeValue24('end-' + lastId);
+        const lastEndTime = timeValues['end-' + lastId] || '';
         if (lastEndTime !== '04:00') {
-            alert('Your last activity must end at 4:00 AM (the following day) to cover all 24 hours. Please adjust the end time of your final activity.');
-            return;
+            alert('Your last activity must end at 4:00 AM (the following day) to cover all 24 hours. Please adjust the end time of your final activity.'); return;
         }
 
         if (!isValid) {
-            alert('Please complete the following before submitting:\n\n' + missingFields.join('\n'));
-            return;
+            alert('Please complete the following before submitting:\n\n' + missingFields.join('\n')); return;
         }
 
         if (!confirm('Are you sure you want to submit your completed survey?')) return;
@@ -663,6 +697,7 @@
         const surveyData = {
             prolificId,
             housings: { householdType, householdSize, workingStatus, timeAtHome, petCount },
+            residentialValue: selectedValue.value,
             submittedAt: new Date().toISOString(),
             entries
         };
