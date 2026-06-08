@@ -18,14 +18,7 @@
         .housing-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; transition: border-color 0.2s, border-width 0.2s; }
         .housing-section:focus-within { border: 2px solid #0066cc; }
         .housing-section h3 { font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 16px; }
-        .values-section { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 20px; margin-bottom: 20px; }
-        .values-section h3 { font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 6px; }
-        .values-desc { font-size: 0.88rem; color: #666; margin-bottom: 16px; line-height: 1.5; }
-        .values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-        .value-item { display: flex; align-items: center; gap: 10px; background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 4px; padding: 10px 14px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-        .value-item:hover { border-color: #0066cc; background: #eef4ff; }
-        .value-item input[type="radio"] { accent-color: #0066cc; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-        .value-item label { font-size: 0.92rem; color: #333; cursor: pointer; line-height: 1.4; }
+
         .info-box { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 16px; margin-bottom: 30px; border-left: 4px solid #0066cc; }
         .info-box p { color: #555; font-size: 0.95rem; }
         .completion-page { display: none; text-align: center; padding: 60px 20px; }
@@ -127,6 +120,47 @@
         </div>
 
         <div class="housing-section">
+            <h3>Demographic Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Age *</label>
+                    <input type="number" id="age" min="1" max="120" placeholder="Enter your age" required style="background:#fff;border:1px solid #ccc;color:#333;padding:8px 12px;border-radius:4px;font-family:inherit;font-size:0.95rem;">
+                </div>
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select id="gender" required>
+                        <option value="">Select...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="prefer_not_to_say">Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>How many pets do you have? *</label>
+                    <select id="pet-count" required>
+                        <option value="">Select...</option>
+                        <option value="none">None</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3_or_more">3 or more</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience in Interior / Architecture *<br><small style="font-weight:400;color:#888;">(including education and industry experience)</small></label>
+                    <select id="domain-experience" required>
+                        <option value="">Select...</option>
+                        <option value="none">None</option>
+                        <option value="less_than_1">Less than 1 year</option>
+                        <option value="1_to_3">1–3 years</option>
+                        <option value="3_to_5">3–5 years</option>
+                        <option value="5_to_8">5–8 years</option>
+                        <option value="more_than_8">More than 8 years</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="housing-section">
             <h3>Housing Information</h3>
             <div class="form-grid">
                 <div class="form-group">
@@ -167,16 +201,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>How many pets do you have? *</label>
-                    <select id="pet-count" required>
-                        <option value="">Select...</option>
-                        <option value="none">None</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3_or_more">3 or more</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label>Daily Time at Home *</label>
                     <select id="time-at-home" required>
                         <option value="">Select...</option>
@@ -206,49 +230,6 @@
                         <option value="23h">23h</option>
                         <option value="24h">24h</option>
                     </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="values-section">
-            <h3>Residential Values *</h3>
-            <p class="values-desc">What is the most important value to you when it comes to residential preferences &amp; choices? Please select <strong>one</strong> option that best reflects your priorities.</p>
-            <div class="values-grid">
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-exciting" value="an_exciting_life">
-                    <label for="val-exciting">An exciting life</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-peace" value="a_dwelling_environment_at_peace">
-                    <label for="val-peace">A peaceful home</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-pleasure" value="pleasure">
-                    <label for="val-pleasure">Pleasure</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-image" value="preserving_my_public_image">
-                    <label for="val-image">Preserving my public image</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-security" value="security">
-                    <label for="val-security">Security</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-self-respect" value="self_respect">
-                    <label for="val-self-respect">Self-respect</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-social-recognition" value="social_recognition">
-                    <label for="val-social-recognition">Social recognition</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-social-power" value="social_power">
-                    <label for="val-social-power">Social power</label>
-                </div>
-                <div class="value-item">
-                    <input type="radio" name="residential-value" id="val-nature" value="unity_with_nature">
-                    <label for="val-nature">Unity with nature</label>
                 </div>
             </div>
         </div>
@@ -615,6 +596,13 @@
         const prolificId = document.getElementById('prolific-id').value.trim();
         if (!prolificId) { alert('Please enter your Prolific ID before submitting.'); return; }
 
+        const age = document.getElementById('age').value.trim();
+        const gender = document.getElementById('gender').value;
+        const domainExperience = document.getElementById('domain-experience').value;
+        if (!age || !gender || !domainExperience) {
+            alert('Please fill in all demographic information.'); return;
+        }
+
         const householdType = document.getElementById('household-type').value;
         const householdSize = document.getElementById('household-size').value;
         const workingStatus = document.getElementById('working-status').value;
@@ -622,11 +610,6 @@
         const petCount = document.getElementById('pet-count').value;
         if (!householdType || !householdSize || !workingStatus || !timeAtHome || !petCount) {
             alert('Please fill in all housing information.'); return;
-        }
-
-        const selectedValue = document.querySelector('input[name="residential-value"]:checked');
-        if (!selectedValue) {
-            alert('Please select a value under "Residential Values" before submitting.'); return;
         }
 
         const entries = [];
@@ -696,8 +679,8 @@
 
         const surveyData = {
             prolificId,
+            demographics: { age, gender, domainExperience },
             housings: { householdType, householdSize, workingStatus, timeAtHome, petCount },
-            residentialValue: selectedValue.value,
             submittedAt: new Date().toISOString(),
             entries
         };
